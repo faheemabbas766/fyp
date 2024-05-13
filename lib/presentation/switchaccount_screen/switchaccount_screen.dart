@@ -55,7 +55,7 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
               ),
               SizedBox(height: 31.v),
               Text(
-                "Switch to Politician",
+                "Switch to Account",
                 style: CustomTextStyles.titleMediumGreen900,
               ),
               SizedBox(height: 56.v),
@@ -67,8 +67,9 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
               _buildGroup194(context),
               SizedBox(height: 54.v),
               Text(
-                "upload a valid document",
+                "Please upload a clear photo, a scanned copy of your CNIC, and proof of residence for account verification.",
                 style: CustomTextStyles.titleMediumBlack90005Bold,
+                textAlign: TextA,
               ),
               SizedBox(height: 31.v),
               DottedBorder(
@@ -86,31 +87,15 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
                 ],
                 child: Container(
                   width: 282.h,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 70.h,
-                    vertical: 12.v,
-                  ),
+                  height: 100.h,
                   decoration: AppDecoration.outlineBlack90003,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomImageView(
-                        imagePath: ImageConstant.imgVector,
-                        height: 36.v,
-                        width: 54.h,
-                        margin: EdgeInsets.only(right: 37.h),
-                      ),
-                      SizedBox(height: 6.v),
                       Text(
-                        "upload here",
-                        style: CustomTextStyles.bodyMediumLight,
-                      ),
-                      SizedBox(height: 4.v),
-                      Padding(
-                        padding: EdgeInsets.only(right: 57.h),
-                        child: Text(
-                          "or",
-                          style: CustomTextStyles.bodyMediumLight,
-                        ),
+                        "Upload File",
+                        style: CustomTextStyles.bodyLarge16,
                       ),
                     ],
                   ),
@@ -137,8 +122,8 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
               ? Column(
                   children: [
                     CustomRadioButton(
-                      text: "msg_mpa_member_of_provincial",
-                      value: provider.switchaccountModelObj?.radioList[0] ?? "",
+                      text: "Member of Provincial Assembly",
+                      value: provider.switchaccountModelObj.radioList[0] ?? "",
                       groupValue: provider.radioGroup,
                       onChange: (value) {
                         provider.changeRadioButton1(value);
@@ -150,9 +135,9 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
                         right: 10.h,
                       ),
                       child: CustomRadioButton(
-                        text: "msg_mna_member_of_national",
+                        text: "Member of National Assembly",
                         value:
-                            provider.switchaccountModelObj?.radioList[1] ?? "",
+                            provider.switchaccountModelObj.radioList[1] ?? "",
                         groupValue: provider.radioGroup,
                         onChange: (value) {
                           provider.changeRadioButton1(value);
@@ -167,7 +152,7 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
                       child: CustomRadioButton(
                         text: "journalist",
                         value:
-                            provider.switchaccountModelObj?.radioList[2] ?? "",
+                            provider.switchaccountModelObj.radioList[2] ?? "",
                         groupValue: provider.radioGroup,
                         onChange: (value) {
                           provider.changeRadioButton1(value);
