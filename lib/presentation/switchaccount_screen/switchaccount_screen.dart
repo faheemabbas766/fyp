@@ -92,9 +92,6 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
                   ),
                   decoration: AppDecoration.outlineBlack90003,
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomImageView(
                         imagePath: ImageConstant.imgVector,
@@ -104,7 +101,7 @@ class SwitchaccountScreenState extends State<SwitchaccountScreen> {
                       ),
                       SizedBox(height: 6.v),
                       Text(
-                        "msg_drag_and_drop_here",
+                        "upload here",
                         style: CustomTextStyles.bodyMediumLight,
                       ),
                       SizedBox(height: 4.v),
