@@ -1,0 +1,85 @@
+name: fyp
+description: A new Flutter project.
+version: 1.0.0+1
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  provider: ^6.1.1
+  cached_network_image: ^3.3.0
+  flutter_svg: ^2.0.9
+  connectivity_plus: ^6.0.1
+  shared_preferences: ^2.2.2
+  flutter_rating_bar: ^4.0.1
+  dotted_border: ^2.1.0
+  intl: ^0.18.0
+  animated_notch_bottom_bar: ^1.0.1
+  image_picker: ^1.0.7
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/images/
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/InterRegular.ttf
+          weight: 400
+        - asset: assets/fonts/InterBold.ttf
+          weight: 700
+        - asset: assets/fonts/InterSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/InterMedium.ttf
+          weight: 500
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoRomanBold.ttf
+          weight: 700
+        - asset: assets/fonts/RobotoMedium.ttf
+          weight: 500
+        - asset: assets/fonts/RobotoRomanRegular.ttf
+          weight: 400
+        - asset: assets/fonts/RobotoRegular.ttf
+          weight: 400
+        - asset: assets/fonts/RobotoRomanMedium.ttf
+          weight: 500
+    - family: Open Sans
+      fonts:
+        - asset: assets/fonts/OpenSansRomanSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/OpenSansRomanRegular.ttf
+          weight: 400
+        - asset: assets/fonts/OpenSansRomanBold.ttf
+          weight: 700
+        - asset: assets/fonts/OpenSansItalicLight.ttf
+          weight: 300
+        - asset: assets/fonts/OpenSansRomanLight.ttf
+          weight: 300
+        - asset: assets/fonts/OpenSansRomanExtraBold.ttf
+          weight: 800
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/MontserratRomanBlack.ttf
+          weight: 900
+        - asset: assets/fonts/MontserratMedium.ttf
+          weight: 500
+    - family: Pavanam
+      fonts:
+        - asset: assets/fonts/PavanamRegular.ttf
+          weight: 400
+    - family: Judson
+      fonts:
+        - asset: assets/fonts/JudsonRegular.ttf
+          weight: 400
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/LatoBold.ttf
+          weight: 700
+        - asset: assets/fonts/LatoBlack.ttf
+          weight: 900
