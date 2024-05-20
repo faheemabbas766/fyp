@@ -80,18 +80,6 @@ class AppNavigationScreenState extends State<AppNavigationScreen> {
                         ),
                         _buildScreenTitle(
                           context,
-                          screenTitle: "Dashboard1 Screen",
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.dashboard1Screen),
-                        ),
-                        _buildScreenTitle(
-                          context,
-                          screenTitle: "Dashboard2 Screen",
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.dashboard2Screen),
-                        ),
-                        _buildScreenTitle(
-                          context,
                           screenTitle: "CommentReport Screen",
                           onTapScreenTitle: () =>
                               onTapScreenTitle(AppRoutes.commentreportScreen),

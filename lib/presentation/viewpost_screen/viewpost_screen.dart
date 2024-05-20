@@ -8,8 +8,9 @@ import '../../core/global/global.dart';
 import '../../core/services/base_service.dart';
 import '../dashboard_screen/provider/dashboard_provider.dart';
 class ViewPostScreen extends StatefulWidget {
-  ViewPostScreen({required this.postData});
+  ViewPostScreen({required this.postData, required this.index});
   VisitProfileModel postData;
+  int index;
 
   @override
   State<ViewPostScreen> createState() => _ViewPostScreenState();
@@ -19,10 +20,12 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(centerTitle:true,title: Text("Post Details"),),
       body: Expanded(
           child: Column(
             children: [
               Card(
+                elevation: 10,
                 child: Column(
                   children: [
                     Container(
@@ -30,10 +33,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                         decoration: AppDecoration.outlineOnErrorContainer1,
                         child: GestureDetector(
                           onTap: (){
-                            GlobalData.profileCnic = widget.postData.cnic;
-                            NavigatorService.pushNamed(
-                              AppRoutes.visitProfileScreen,
-                            );
+                            Navigator.pop(context);
                           },
                           child: Row(
                               children: [
@@ -61,8 +61,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                                 ),
                                               ),
                                               Container(
-                                                  width: MediaQuery.of(context).size.height / 5,
-                                                  child: Text(GlobalData.timeAgo(widget.postData.userPosts[0].postDate))),
+                                                  width: MediaQuery.of(context).size.height / 6.3,
+                                                  child: Text(GlobalData.timeAgo(widget.postData.userPosts[widget.index].postDate))),
                                               DropdownButton2<String>(
                                                 isExpanded: true,
                                                 underline: SizedBox.shrink(),
@@ -83,20 +83,20 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                                 value: null,
                                                 onChanged: (String? value) {
                                                   if(value == 'Report'){
-                                                    GlobalData.postId = widget.postData.userPosts[0].postId.toString();
+                                                    GlobalData.postId = widget.postData.userPosts[widget.index].postId.toString();
                                                     showDialog(
                                                         context: context,
                                                         builder: (context) => Provider.of<DashboardProvider>(context, listen: false).buildAutoLayoutVertical(context));
                                                   }
                                                 },
                                                 buttonStyleData: ButtonStyleData(
-                                                  width: 20,
+                                                  width: 30,
                                                 ),
                                                 iconStyleData: const IconStyleData(
                                                   icon: Icon(
                                                     Icons.more_horiz_outlined,
                                                   ),
-                                                  iconSize: 20,
+                                                  iconSize: 30,
                                                   iconEnabledColor: Colors.black,
                                                   iconDisabledColor: Colors.black,
                                                 ),
@@ -151,16 +151,16 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                       children: [
                         InkWell(
                           onTap:(){
-                            GlobalData.profileCnic = widget.postData.userPosts[0].politicianId;
+                            GlobalData.profileCnic = widget.postData.userPosts[widget.index].politicianId;
                             NavigatorService.pushNamed(
                               AppRoutes.visitProfileScreen,
                             );
                           },
-                          child: Text("@"+GlobalData.getPoliticianById(widget.postData.userPosts[0].politicianId),
+                          child: Text("@"+GlobalData.getPoliticianById(widget.postData.userPosts[widget.index].politicianId),
                             style: TextStyle(color: Colors.blue,fontSize: 20),),
                         ),
                         Linkify(
-                          text: widget.postData.userPosts[0].postText?? '',
+                          text: widget.postData.userPosts[widget.index].postText?? '',
                           softWrap: true,
                           maxLines: 20,
                           style: CustomTextStyles.bodyMediumPavanamff000000,
@@ -173,12 +173,12 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                             }
                           },
                         ),
-                        widget.postData.userPosts[0].postImage!=null?Container(
+                        widget.postData.userPosts[widget.index].postImage!=null?Container(
                           width: double.maxFinite,
                           child: CustomImageView(
                             height: 300,
                             fit: BoxFit.cover,
-                            imagePath: BaseService.mediaUrl+(widget.postData.userPosts[0].postImage??""),
+                            imagePath: BaseService.mediaUrl+(widget.postData.userPosts[widget.index].postImage??""),
                           ),
                         ):Container(),
                         Row(
@@ -191,14 +191,14 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                     padding: const EdgeInsets.symmetric(horizontal: 1.0), // Customize the horizontal spacing here
                                     child: GestureDetector(
                                         onTap: (){
-                                          widget.postData.userPosts[0].rateScore= i+1;
+                                          widget.postData.userPosts[widget.index].rateScore= i+1;
                                           Provider.of<DashboardProvider>(context, listen: false).notifier();
                                           Provider.of<DashboardProvider>(context, listen: false).ratePost(0);
                                         },
-                                        child: Icon(i<widget.postData.userPosts[0].rateScore? Icons.star:Icons.star_border, color: Colors.yellow)),
+                                        child: Icon(i<widget.postData.userPosts[widget.index].rateScore? Icons.star:Icons.star_border, color: Colors.yellow)),
                                   ),
                                 SizedBox(width: 10,),
-                                Text(widget.postData.userPosts[0].totalRating.toString(),style: CustomTextStyles.titleLargeBlack90005),
+                                Text(widget.postData.userPosts[widget.index].totalRating.toString(),style: CustomTextStyles.titleLargeBlack90005),
                               ],
                             ),
                             // Column(
@@ -221,7 +221,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                             // ),
                             IconButton(
                               onPressed: () {
-                                GlobalData.postId = widget.postData.userPosts[0].postId.toString();
+                                GlobalData.postId = widget.postData.userPosts[widget.index].postId.toString();
                                 NavigatorService.pushNamed(
                                   AppRoutes.commentScreen,
                                 );
@@ -229,7 +229,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                               icon: Icon(Icons.comment_sharp),
                             ),
                             Expanded(
-                                child: Text(widget.postData.userPosts[0].recentComment??'',
+                                child: Text(widget.postData.userPosts[widget.index].recentComment??'',
                                   style: CustomTextStyles.bodyMediumJudson,
                                   overflow: TextOverflow.ellipsis,
                                 )),
@@ -240,12 +240,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                   ],
                 ),
               ),
-              Divider(
-                height: 10,
-                color: appTheme.black90005,
-                indent: 6.h,
-                endIndent: 6.h,
-              ),
+              Expanded(child: SizedBox())
             ],
           )
       ),

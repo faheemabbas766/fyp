@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import '../../../core/global/global.dart';
+import '../../../core/services/base_service.dart';
 import '../models/following_model.dart';
 
-/// A provider class for the FollowingScreen.
-///
-/// This provider manages the state of the FollowingScreen, including the
-/// current followingModelObj
-
-// ignore_for_file: must_be_immutable
 class FollowingProvider extends ChangeNotifier {
-  TextEditingController searchController = TextEditingController();
-
-  FollowingModel followingModelObj = FollowingModel();
+  bool isShowLoading= true;
+  late List<FollowingModel> followingList;
+  loadData() async {
+    followingList = await getAllFollowing();
+    isShowLoading = false;
+    notifyListeners();
+  }
+  Future<List<FollowingModel>> getAllFollowing() async {
+    Map<String, String> requestBody = {
+      'cnic': GlobalData.prefs.getString('cnic')!,
+    };
+    dynamic response = await BaseService.postRequest("Main/AllFollowing", requestBody);
+    final parsed = response.cast<Map<String, dynamic>>();
+    return parsed.map<FollowingModel>((json) => FollowingModel.fromJson(json)).toList();
+  }
 
   @override
   void dispose() {
     super.dispose();
-    searchController.dispose();
   }
 }

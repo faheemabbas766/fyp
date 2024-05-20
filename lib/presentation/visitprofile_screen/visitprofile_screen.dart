@@ -126,19 +126,14 @@ class VisitProfileScreenState extends State<VisitProfileScreen> {
                                                             padding:
                                                             EdgeInsets.only(left: 4.h),
                                                             child: Text(provider.visitProfile.totalPost.toString(),
-                                                                style: CustomTextStyles
-                                                                    .titleMediumRobotoBlack90005)),
+                                                                style: CustomTextStyles.titleMediumRobotoBlack90005)),
                                                         SizedBox(height: 2.v),
-                                                        Text("posts",
+                                                        Text("Posts",
                                                             style:
                                                             theme.textTheme.bodySmall)
                                                       ]),
-                                                  _buildTwentyFive(context,
-                                                    oneHundred: provider.visitProfile.totalFollowing.toString(),
-                                                    following: "followers",),
-                                                  _buildTwentyFive(context,
-                                                    oneHundred: provider.visitProfile.totalFollowed.toString(),
-                                                    following: "following",)
+                                                  _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowed.toString(), following: "Following",),
+                                                  _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowing.toString(), following: "Followed",)
                                                 ])),
                                         SizedBox(height: 13.v),
                                         Text(provider.visitProfile.userType+'\t'+provider.visitProfile.position,
@@ -173,7 +168,7 @@ class VisitProfileScreenState extends State<VisitProfileScreen> {
                                 padding: const EdgeInsets.all(5.0),
                                 child: InkWell(
                                   onTap: (){
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPostScreen(postData: provider.visitProfile),));
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPostScreen(postData: provider.visitProfile,index: index,),));
                                   },
                                   child: CustomImageView(
                                     fit: BoxFit.cover,

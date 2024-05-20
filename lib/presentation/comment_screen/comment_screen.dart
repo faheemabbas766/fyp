@@ -238,7 +238,7 @@ class CommentScreenState extends State<CommentScreen> {
                                     children: [
                                       Text(provider.commentsList[index].userName, style: CustomTextStyles.titleSmallRobotoMedium),
                                       SizedBox(width: 10),
-                                      Text(DateFormat('d').format(provider.commentsList[index].commentDate) + 'd', style: CustomTextStyles.bodyMediumRoboto),
+                                      Text(GlobalData.timeAgo(provider.commentsList[index].commentDate), style: CustomTextStyles.bodyMediumRoboto),
                                       Spacer(),
                                       DropdownButton2<String>(
                                         isExpanded: true,

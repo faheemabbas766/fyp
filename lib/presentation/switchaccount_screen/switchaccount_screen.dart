@@ -1,9 +1,12 @@
 import 'dart:io';
+import 'package:fyp/presentation/editprofile_screen/provider/editprofile_provider.dart';
 import 'package:fyp/widgets/custom_radio_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../core/global/global.dart';
+import '../../core/services/base_service.dart';
 import '../../widgets/custom_elevated_button.dart';
 import 'provider/switchaccount_provider.dart';
 
@@ -14,7 +17,7 @@ class SwitchAccountScreen extends StatefulWidget {
   SwitchAccountScreenState createState() => SwitchAccountScreenState();
   static Widget builder(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SwitchaccountProvider(),
+      create: (context) => SwitchAccountProvider(),
       child: SwitchAccountScreen(),
     );
   }
@@ -46,6 +49,11 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Upgrade Account Request",
+            style: CustomTextStyles.titleMediumBlack90005Bold,),
+        ),
         body: Container(
           width: double.maxFinite,
           padding: EdgeInsets.symmetric(
@@ -55,18 +63,12 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "cancel",
-                style: CustomTextStyles.bodyLargeOpenSansOnPrimary16,
-              ),
-              SizedBox(height: 22.v),
               CustomImageView(
-                imagePath: ImageConstant.imgEllipse35,
+                imagePath: BaseService.mediaUrl+"Profile/"+(GlobalData.prefs.getString('user_pic')??''),
                 height: 110.adaptSize,
+                fit: BoxFit.cover,
                 width: 110.adaptSize,
-                radius: BorderRadius.circular(
-                  55.h,
-                ),
+                radius: BorderRadius.circular(55.0),
               ),
               SizedBox(height: 31.v),
               Text(
@@ -75,12 +77,12 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
               ),
               SizedBox(height: 16.v),
               Text(
-                "choose your role",
+                "Choose your Role",
                 style: CustomTextStyles.titleMediumBlack90005Bold,
               ),
               SizedBox(height: 25.v),
               _buildGroup194(context),
-              SizedBox(height: 54.v),
+              SizedBox(height: 24.v),
               Text(
                 "Please upload a clear photo, a scanned copy of your CNIC, and proof of residence for account verification.",
                 style: CustomTextStyles.bodyMediumff262626,
@@ -139,7 +141,40 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                 height: 42.0,
                 text: "Send Request",
                 buttonTextStyle: CustomTextStyles.titleMediumGray50,
-                onPressed: () {
+                onPressed: () async {
+                  try{
+                    if(_selectedImage!=null){
+                      BaseService.showLoading("Uploading Request...", context);
+                      Map<String,String> body = {
+                        'User_cnic':GlobalData.prefs.getString('cnic')!,
+                        'request_typerequest_type':Provider.of<SwitchAccountProvider>(context,listen: false).radioGroup,
+                      };
+                      Map<String, dynamic> fileFields = {
+                        'request_document': _selectedImage,
+                      };
+                      await BaseService.postRequest('Main/UpgradeAccountRequest', body,fileFields: fileFields);
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Center(child: Text('Request Successful!')),
+                        ),
+                      );
+                      _selectedImage = null;
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Center(child: Text("Select a document first.")),
+                        ),
+                      );
+                    }
+                  }catch(e){
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Center(child: Text(e.toString())),
+                      ),
+                    );
+                  }
                 },
               ),
 
@@ -158,52 +193,87 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
         left: 20.h,
         right: 47.h,
       ),
-      child: Consumer<SwitchaccountProvider>(
+      child: Consumer<SwitchAccountProvider>(
         builder: (context, provider, child) {
-          return provider.switchaccountModelObj.radioList.isNotEmpty
-              ? Column(
-                  children: [
-                    CustomRadioButton(
-                      text: "Member of Provincial Assembly",
-                      value: provider.switchaccountModelObj.radioList[0] ?? "",
-                      groupValue: provider.radioGroup,
-                      onChange: (value) {
-                        provider.changeRadioButton1(value);
-                      },
-                    ),
-                    Padding(
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: Padding(
                       padding: EdgeInsets.only(
                         top: 38.v,
                         right: 10.h,
                       ),
                       child: CustomRadioButton(
-                        text: "Member of National Assembly",
-                        value:
-                            provider.switchaccountModelObj.radioList[1] ?? "",
+                        text: "MNA",
+                        value: "MNA",
                         groupValue: provider.radioGroup,
                         onChange: (value) {
-                          provider.changeRadioButton1(value);
+                          provider.changeRadioButton(value);
                         },
                       ),
                     ),
-                    Padding(
+                  ),
+                  SizedBox(width: 20), // Adjust the width as needed
+                  Expanded(
+                    child: Padding(
                       padding: EdgeInsets.only(
-                        top: 40.v,
-                        right: 209.h,
+                        top: 38.v,
+                        left: 10.h,
+                      ),
+                      child: CustomRadioButton(
+                        text: "MPA",
+                        value: "MPA",
+                        groupValue: provider.radioGroup,
+                        onChange: (value) {
+                          provider.changeRadioButton(value);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20), // Adjust the height as needed
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        right: 10.h,
                       ),
                       child: CustomRadioButton(
                         text: "Journalist",
-                        value:
-                            provider.switchaccountModelObj.radioList[2] ?? "",
+                        value: "Journalist",
                         groupValue: provider.radioGroup,
                         onChange: (value) {
-                          provider.changeRadioButton1(value);
+                          provider.changeRadioButton(value);
                         },
                       ),
                     ),
-                  ],
-                )
-              : Container();
+                  ),
+                  SizedBox(width: 20), // Adjust the width as needed
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 10.h,
+                      ),
+                      child: CustomRadioButton(
+                        text: "Admin",
+                        value: "Admin",
+                        groupValue: provider.radioGroup,
+                        onChange: (value) {
+                          provider.changeRadioButton(value);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
         },
       ),
     );

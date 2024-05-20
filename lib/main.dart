@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyp/presentation/comment_screen/provider/comment_provider.dart';
 import 'package:fyp/presentation/dashboard_screen/provider/dashboard_provider.dart';
+import 'package:fyp/presentation/followed_screen/provider/followed_provider.dart';
+import 'package:fyp/presentation/following_screen/provider/following_provider.dart';
 import 'package:fyp/presentation/login_screen/provider/login_provider.dart';
+import 'package:fyp/presentation/profile_screen/provider/profile_provider.dart';
 import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
@@ -31,6 +34,9 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => LoginProvider()),
             ChangeNotifierProvider(create: (_) => DashboardProvider()),
             ChangeNotifierProvider(create: (_) => CommentProvider()),
+            ChangeNotifierProvider(create: (_) => ProfileProvider()),
+            ChangeNotifierProvider(create: (_) => FollowedProvider()),
+            ChangeNotifierProvider(create: (_) => FollowingProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {

@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import '../models/switchaccount_model.dart';
+class SwitchAccountProvider extends ChangeNotifier {
+  SwitchaccountModel switchAccountModelObj = SwitchaccountModel();
 
-/// A provider class for the SwitchaccountScreen.
-///
-/// This provider manages the state of the SwitchaccountScreen, including the
-/// current switchaccountModelObj
-class SwitchaccountProvider extends ChangeNotifier {
-  SwitchaccountModel switchaccountModelObj = SwitchaccountModel();
-
-  String radioGroup = "";
+  String radioGroup = "MNA";
 
   @override
   void dispose() {
     super.dispose();
   }
 
-  void changeRadioButton1(String value) {
+  void changeRadioButton(String value) {
     radioGroup = value;
     notifyListeners();
   }

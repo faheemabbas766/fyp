@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/data/models/politician_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalData{
-  static dynamic allPoliticianList;
+  static late List<Politician> allPoliticianList;
   static late SharedPreferences prefs;
   static String profileCnic = '';
   static String postId = '3';
   static String commentId = '1';
   static String getPoliticianById(String cnic){
     for(int i=0;i<allPoliticianList.length;i++){
-      if(allPoliticianList[i]['PoliticianCNIC'] == cnic)
-        return allPoliticianList[i]['UserFullName'];
+      if(allPoliticianList[i].politicianCNIC == cnic)
+        return allPoliticianList[i].userFullName;
     }
-    return "____";
+    return "Not Match";
   }
   static String timeAgo(DateTime date) {
     final Duration diff = DateTime.now().difference(date);

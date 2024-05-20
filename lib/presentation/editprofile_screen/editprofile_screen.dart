@@ -2,6 +2,7 @@ import 'package:fyp/core/global/global.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
+import '../../core/services/base_service.dart';
 import 'provider/editprofile_provider.dart';
 
 class EditprofileScreen extends StatefulWidget {
@@ -44,15 +45,11 @@ class EditprofileScreenState extends State<EditprofileScreen> {
               ),
               SizedBox(height: 20.0),
               CustomImageView(
-                imagePath: ImageConstant.imgEllipse35,
+                imagePath: BaseService.mediaUrl+"Profile/"+(GlobalData.prefs.getString('user_pic')??''),
                 height: 110.adaptSize,
+                fit: BoxFit.cover,
                 width: 110.adaptSize,
                 radius: BorderRadius.circular(55.0),
-              ),
-              SizedBox(height: 10.0),
-              Text(
-                "Edit Picture",
-                style: CustomTextStyles.titleMediumGreen900,
               ),
               SizedBox(height: 20.0),
               _buildInfoRow("CNIC", GlobalData.prefs.getString('cnic') ?? ''),

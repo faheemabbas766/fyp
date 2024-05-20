@@ -6,8 +6,6 @@ import '../presentation/adminreportsscreen_screen/adminreportsscreen_screen.dart
 import '../presentation/adminmanageusersscreen_screen/adminmanageusersscreen_screen.dart';
 import '../presentation/welcome_screen/welcome_screen.dart';
 import '../presentation/search_screen_container_screen/search_screen_container_screen.dart';
-import '../presentation/dashboard1_screen/dashboard1_screen.dart';
-import '../presentation/dashboard2_screen/dashboard2_screen.dart';
 import '../presentation/commentreport_screen/commentreport_screen.dart';
 import '../presentation/switchaccount_screen/switchaccount_screen.dart';
 import '../presentation/setting_screen/setting_screen.dart';
@@ -41,10 +39,6 @@ class AppRoutes {
       '/search_screen_container_screen';
 
   static const String searchScreenPage = '/search_screen_page';
-
-  static const String dashboard1Screen = '/dashboard1_screen';
-
-  static const String dashboard2Screen = '/dashboard2_screen';
 
   static const String commentreportScreen = '/commentreport_screen';
 
@@ -90,9 +84,7 @@ class AppRoutes {
         adminmanageusersScreen: AdminmanageusersScreen.builder,
         welcomeScreen: WelcomeScreen.builder,
         searchScreenContainerScreen: SearchScreenContainerScreen.builder,
-        dashboard1Screen: Dashboard1Screen.builder,
-        dashboard2Screen: Dashboard2Screen.builder,
-        commentreportScreen: CommentreportScreen.builder,
+    commentreportScreen: CommentreportScreen.builder,
         switchaccountScreen: SwitchAccountScreen.builder,
         settingScreen: SettingScreen.builder,
         addPostScreen: AddPostScreen.builder,

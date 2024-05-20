@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import '../models/search_screen_model.dart';
+import 'package:fyp/core/global/global.dart';
+import 'package:fyp/data/models/politician_model.dart';
 
-/// A provider class for the SearchScreenPage.
-///
-/// This provider manages the state of the SearchScreenPage, including the
-/// current searchScreenModelObj
-
-// ignore_for_file: must_be_immutable
 class SearchScreenProvider extends ChangeNotifier {
   TextEditingController searchController = TextEditingController();
-  SearchScreenModel searchScreenModelObj = SearchScreenModel();
+  List<Politician> searchList = [];
+
+  SearchScreenProvider() {
+    searchController.addListener(search);
+  }
+
+  void search() {
+    final query = searchController.text.toLowerCase();
+    searchList = GlobalData.allPoliticianList
+        .where((politician) =>
+        politician.userFullName.toLowerCase().contains(query))
+        .toList();
+    notifyListeners();
+  }
 
   @override
   void dispose() {
-    super.dispose();
+    searchController.removeListener(search);
     searchController.dispose();
+    super.dispose();
   }
 }

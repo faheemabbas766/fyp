@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp/presentation/addpost_screen/addpost_screen.dart';
 import 'package:fyp/presentation/dashboard_screen/dashboard_screen.dart';
 import 'package:fyp/presentation/editprofile_screen/editprofile_screen.dart';
+import 'package:fyp/presentation/profile_screen/profile_screen.dart';
 import 'package:fyp/presentation/search_screen_container_screen/search_screen_container_screen.dart';
 import '../../core/app_export.dart';
 import 'provider/bottom_app_bar_provider.dart';
@@ -30,7 +31,7 @@ class _MyHomePageState extends State<BottomAppBarScreen> {
     const DashboardScreen(),
     const SearchScreenContainerScreen(),
     const AddPostScreen(),
-    const EditprofileScreen(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -41,14 +42,13 @@ class _MyHomePageState extends State<BottomAppBarScreen> {
         physics: const NeverScrollableScrollPhysics(),
         children: List.generate(bottomBarPages.length, (index) => bottomBarPages[index]),
       ),
-      extendBody: true,
       bottomNavigationBar: (bottomBarPages.length <= maxCount)
           ? AnimatedNotchBottomBar(
         notchBottomBarController: _controller,
         color: Colors.greenAccent,
         showLabel: false,
-        kBottomRadius: 30,
-        durationInMilliSeconds: 100,
+        kBottomRadius: 10,
+        durationInMilliSeconds: 200,
         bottomBarItems: [
           const BottomBarItem(
             inActiveItem: Icon(
@@ -102,7 +102,7 @@ class _MyHomePageState extends State<BottomAppBarScreen> {
         onTap: (index) {
           _pageController.jumpToPage(index);
         },
-        kIconSize: 26.0,
+        kIconSize: 24.0,
       ) : null,
     );
   }

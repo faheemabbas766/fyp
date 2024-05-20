@@ -80,10 +80,16 @@ class DashboardScreenState extends State<DashboardScreen> {
                                       decoration: AppDecoration.outlineOnErrorContainer1,
                                       child: GestureDetector(
                                         onTap: (){
-                                          GlobalData.profileCnic = provider.allPosts[index].userCNIC;
-                                          NavigatorService.pushNamed(
-                                            AppRoutes.visitProfileScreen,
-                                          );
+                                          if(provider.allPosts[index].userCNIC == GlobalData.prefs.getString('cnic')){
+                                            NavigatorService.pushNamed(
+                                              AppRoutes.profileScreen,
+                                            );
+                                          }else{
+                                            GlobalData.profileCnic = provider.allPosts[index].userCNIC;
+                                            NavigatorService.pushNamed(
+                                              AppRoutes.visitProfileScreen,
+                                            );
+                                          }
                                         },
                                         child: Row(
                                             children: [
@@ -111,7 +117,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                               ),
                                                             ),
                                                             Container(
-                                                                width: MediaQuery.of(context).size.height / 5,
+                                                                width: MediaQuery.of(context).size.height / 6.3,
                                                                 child: Text(GlobalData.timeAgo(provider.allPosts[index].postDate))),
                                                             DropdownButton2<String>(
                                                               isExpanded: true,
@@ -140,13 +146,13 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                                 }
                                                               },
                                                               buttonStyleData: ButtonStyleData(
-                                                                width: 20,
+                                                                width: 30,
                                                               ),
                                                               iconStyleData: const IconStyleData(
                                                                 icon: Icon(
                                                                   Icons.more_horiz_outlined,
                                                                 ),
-                                                                iconSize: 20,
+                                                                iconSize: 30,
                                                                 iconEnabledColor: Colors.black,
                                                                 iconDisabledColor: Colors.black,
                                                               ),
@@ -190,7 +196,14 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                                     provider.notifier();
                                                                   }
                                                                 },
-                                                                child: Text(provider.allPosts[index].followed ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,))
+                                                                child: Text(provider.allPosts[index].followed ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,)),
+                                                            SizedBox(
+                                                              width: MediaQuery.of(context).size.height / 7.35,
+                                                              child: Align(
+                                                                  alignment: Alignment.centerRight,
+                                                                  child: Text(provider.allPosts[index].postUC,style: CustomTextStyles.titleSmallRobotoSemiBold,)),
+                                                            ),
+
                                                           ],
                                                         ),
                                                       ])),
@@ -207,21 +220,24 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           );
                                         },
                                         child: Text("@"+GlobalData.getPoliticianById(provider.allPosts[index].politician_id),
-                                        style: TextStyle(color: Colors.blue,fontSize: 20),),
+                                        style: TextStyle(color: Colors.blue,fontSize: 18),),
                                       ),
-                                      Linkify(
-                                        text: provider.allPosts[index].postText?? '',
-                                        softWrap: true,
-                                        maxLines: 20,
-                                        style: CustomTextStyles.bodyMediumPavanamff000000,
-                                        linkStyle: TextStyle(color: Colors.blue),
-                                        onOpen: (link) async {
-                                          if (await canLaunch(link.url)) {
-                                            await launch(link.url);
-                                          } else {
-                                            throw 'Could not launch ${link.url}';
-                                          }
-                                        },
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Linkify(
+                                          text: provider.allPosts[index].postText?? '',
+                                          softWrap: true,
+                                          maxLines: 20,
+                                          style: CustomTextStyles.bodyMediumPavanamff000000,
+                                          linkStyle: TextStyle(color: Colors.blue),
+                                          onOpen: (link) async {
+                                            if (await canLaunch(link.url)) {
+                                              await launch(link.url);
+                                            } else {
+                                              throw 'Could not launch ${link.url}';
+                                            }
+                                          },
+                                        ),
                                       ),
                                       provider.allPosts[index].postImage!=null?Container(
                                         width: double.maxFinite,

@@ -4,6 +4,7 @@ import 'package:fyp/core/services/base_service.dart';
 import 'package:fyp/presentation/welcome_screen/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/global/global.dart';
+import '../../data/models/politician_model.dart';
 import '../bottom_app_bar/bottom_app_bar_screen.dart';
 import 'provider/splash_provider.dart';
 
@@ -46,8 +47,7 @@ class SplashScreenState extends State<SplashScreen>
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
       );
     } else {
-      GlobalData.allPoliticianList =
-          await BaseService.postRequest('Main/AllPolitician', null);
+      GlobalData.allPoliticianList = (await BaseService.postRequest('Main/AllPolitician', null)).map<Politician>((json) => Politician.fromJson(json)).toList();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => BottomAppBarScreen()),
       );
