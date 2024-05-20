@@ -6,6 +6,41 @@ class GlobalData{
   static late SharedPreferences prefs;
   static String profileCnic = '';
   static String postId = '3';
+  static String commentId = '1';
+  static String getPoliticianById(String cnic){
+    for(int i=0;i<allPoliticianList.length;i++){
+      if(allPoliticianList[i]['PoliticianCNIC'] == cnic)
+        return allPoliticianList[i]['UserFullName'];
+    }
+    return "____";
+  }
+  static String timeAgo(DateTime date) {
+    final Duration diff = DateTime.now().difference(date);
+
+    if (diff.inSeconds < 60) {
+      return 'just now';
+    } else if (diff.inMinutes < 60) {
+      return '${diff.inMinutes} minute${diff.inMinutes == 1 ? '' : 's'} ago';
+    } else if (diff.inHours < 24) {
+      return '${diff.inHours} hour${diff.inHours == 1 ? '' : 's'} ago';
+    } else if (diff.inDays < 7) {
+      return '${diff.inDays} day${diff.inDays == 1 ? '' : 's'} ago';
+    } else {
+      final int weeks = (diff.inDays / 7).floor();
+      if (weeks < 4) {
+        return '${weeks} week${weeks == 1 ? '' : 's'} ago';
+      } else {
+        final int months = (diff.inDays / 30).floor();
+        if (months < 12) {
+          return '${months} month${months == 1 ? '' : 's'} ago';
+        } else {
+          final int years = (diff.inDays / 365).floor();
+          return '${years} year${years == 1 ? '' : 's'} ago';
+        }
+      }
+    }
+  }
+
   static void showSnackBar(String text,BuildContext context){
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

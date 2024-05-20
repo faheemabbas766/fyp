@@ -2,7 +2,6 @@ import 'package:fyp/widgets/app_bar/custom_app_bar.dart';
 import 'package:fyp/widgets/app_bar/appbar_leading_image.dart';
 import 'package:fyp/widgets/app_bar/appbar_title.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
-import 'models/adminuserdetailscreen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/adminuserdetailscreen_provider.dart';

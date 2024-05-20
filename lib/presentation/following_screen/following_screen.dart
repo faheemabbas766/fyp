@@ -5,7 +5,6 @@ import 'package:fyp/widgets/app_bar/appbar_leading_image.dart';
 import 'package:fyp/widgets/custom_search_view.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:fyp/widgets/custom_bottom_bar.dart';
-import 'models/following_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/following_provider.dart';

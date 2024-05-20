@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 initialRoute: AppRoutes.splashScreen,
                 routes: AppRoutes.routes,
-                // home: BottomAppBarScreen(),
+                // home: MyHomePage(),
               );
             },
           ),

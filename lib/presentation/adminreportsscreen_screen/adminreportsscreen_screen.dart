@@ -1,5 +1,4 @@
 import 'package:fyp/widgets/custom_elevated_button.dart';
-import 'models/adminreportsscreen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/adminreportsscreen_provider.dart';

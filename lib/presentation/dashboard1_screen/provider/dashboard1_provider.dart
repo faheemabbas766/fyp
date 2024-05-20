@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_export.dart';
 import '../models/dashboard1_model.dart';
 
 /// A provider class for the Dashboard1Screen.

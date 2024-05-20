@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fyp/presentation/addpost_screen/addpost_screen.dart';
 import 'package:fyp/presentation/dashboard_screen/dashboard_screen.dart';
 import 'package:fyp/presentation/editprofile_screen/editprofile_screen.dart';
-import 'package:fyp/presentation/editprofile_screen/provider/editprofile_provider.dart';
 import 'package:fyp/presentation/search_screen_container_screen/search_screen_container_screen.dart';
 import '../../core/app_export.dart';
 import 'provider/bottom_app_bar_provider.dart';

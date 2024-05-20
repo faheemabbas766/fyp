@@ -3,7 +3,6 @@ import 'package:fyp/widgets/app_bar/appbar_leading_image.dart';
 import 'package:fyp/widgets/app_bar/appbar_subtitle_two.dart';
 import 'widgets/notificationscreen_item_widget.dart';
 import 'models/notificationscreen_item_model.dart';
-import 'models/notification_screen_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/notification_screen_provider.dart';

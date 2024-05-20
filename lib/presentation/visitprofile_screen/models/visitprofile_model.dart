@@ -16,7 +16,7 @@ class VisitProfileModel {
   final String gender;
   final DateTime createdDate;
   bool isFollow;
-  final List<PostModel> userPosts; // List of posts made by the user
+  final List<PostModel> userPosts;
 
   VisitProfileModel({
     required this.id,
@@ -65,7 +65,7 @@ class VisitProfileModel {
   }
 
   Map<String, dynamic> toJson() => {
-    '$id': id,
+    '\$id': id,
     'user_cnic': cnic,
     'user_name': name,
     'user_picture': picture,
@@ -102,12 +102,13 @@ class PostModel {
   final DateTime? recentCommentDate;
   final String status;
   final String politicianId;
+  int rateScore; // Added field
+  final bool followed; // Added field
 
   PostModel({
     required this.postId,
     required this.postDate,
     required this.postText,
-    this.postImage,
     required this.postUc,
     required this.userName,
     required this.userCnic,
@@ -115,10 +116,13 @@ class PostModel {
     required this.accountType,
     required this.position,
     required this.totalRating,
-    required this.recentComment,
-    required this.recentCommentDate,
     required this.status,
     required this.politicianId,
+    required this.rateScore,
+    required this.followed,
+    this.postImage,
+    this.recentComment,
+    this.recentCommentDate,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -127,25 +131,27 @@ class PostModel {
       postDate: DateTime.parse(json['post_date']),
       postText: json['post_text'],
       postImage: json['post_image'],
-      postUc: json['post_uc'],
-      userName: json['user_name'],
-      userCnic: json['user_cnic'],
-      userPicture: json['user_picture'],
-      accountType: json['account_type'],
-      position: json['position'],
-      totalRating: json['total_rating'],
-      recentComment: json['recent_comment'],
+      postUc: json['post_uc']??'',
+      userName: json['user_name']??'',
+      userCnic: json['user_cnic']??'',
+      userPicture: json['user_picture']??'',
+      accountType: json['account_type']??'',
+      position: json['position']??'',
+      totalRating: json['total_rating']??0,
+      recentComment: json['recent_comment']??'',
       recentCommentDate: json['recent_comment_date'] != null
           ? DateTime.parse(json['recent_comment_date'])
           : null,
-      status: json['status'],
-      politicianId: json['politician_id'],
+      status: json['status']??'',
+      politicianId: json['politician_id']??'',
+      rateScore: json['rate_score']?? 0,
+      followed: json['followed']??'',
     );
   }
 
   Map<String, dynamic> toJson() => {
     'post_id': postId,
-    'post_date': postDate.toIso8601String(),
+    'post_date': postDate,
     'post_text': postText,
     'post_image': postImage,
     'post_uc': postUc,
@@ -160,5 +166,7 @@ class PostModel {
     recentCommentDate != null ? recentCommentDate!.toIso8601String() : null,
     'status': status,
     'politician_id': politicianId,
+    'rate_score': rateScore,
+    'followed': followed,
   };
 }

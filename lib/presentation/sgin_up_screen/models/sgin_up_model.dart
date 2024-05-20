@@ -1,5 +1,4 @@
 import 'package:fyp/core/app_export.dart';
-import '../../../core/app_export.dart';
 
 class SginUpModel {
   List<SelectionPopupModel> provinceDropdownItemList = [

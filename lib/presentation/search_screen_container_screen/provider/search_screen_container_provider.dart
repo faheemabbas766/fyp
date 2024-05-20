@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_export.dart';
 import '../models/search_screen_container_model.dart';
 
 /// A provider class for the SearchScreenContainerScreen.

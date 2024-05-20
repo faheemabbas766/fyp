@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../core/app_export.dart';
 import '../models/followed_model.dart';
 
 /// A provider class for the FollowedScreen.

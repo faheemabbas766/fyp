@@ -27,7 +27,7 @@ class NotificationscreenItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               CustomImageView(
-                imagePath: notificationscreenItemModelObj?.asadMehmood,
+                imagePath: notificationscreenItemModelObj.asadMehmood,
                 height: 44.adaptSize,
                 width: 44.adaptSize,
                 radius: BorderRadius.circular(
@@ -97,7 +97,7 @@ class NotificationscreenItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     CustomImageView(
-                      imagePath: notificationscreenItemModelObj?.asadMehmood2,
+                      imagePath: notificationscreenItemModelObj.asadMehmood2,
                       height: 44.adaptSize,
                       width: 44.adaptSize,
                       radius: BorderRadius.circular(

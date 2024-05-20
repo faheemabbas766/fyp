@@ -16,7 +16,7 @@ class VisitProfileProvider extends ChangeNotifier {
       'userCnic':GlobalData.prefs.getString('cnic')!,
       'accountCnic':GlobalData.profileCnic,
     };
-    dynamic response = await BaseService.postRequest("Main/FollowById", requestBody);
+    await BaseService.postRequest("Main/FollowById", requestBody);
     return true;
   }
   Future<VisitProfileModel> getProfileInfoById(String ProfileCnic) async {

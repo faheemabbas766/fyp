@@ -7,7 +7,6 @@ import 'package:fyp/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:fyp/widgets/custom_checkbox_button.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:fyp/widgets/custom_bottom_bar.dart';
-import 'models/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/profile_provider.dart';

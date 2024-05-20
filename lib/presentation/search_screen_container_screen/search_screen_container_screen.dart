@@ -1,7 +1,6 @@
 import 'package:fyp/presentation/search_screen_page/search_screen_page.dart';
 import 'package:fyp/presentation/notification_screen_page/notification_screen_page.dart';
 import 'package:fyp/widgets/custom_bottom_bar.dart';
-import 'models/search_screen_container_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/search_screen_container_provider.dart';

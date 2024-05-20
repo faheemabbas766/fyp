@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:fyp/core/services/base_service.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -209,6 +208,7 @@ class AddPostScreenState extends State<AddPostScreen> {
                                   child: Padding(
                                       padding: EdgeInsets.only(left: 36.h),
                                       child: CustomTextFormField(
+                                        controller: _textEditingController,
                                         hintText: "Add your opinion here...",
                                         hintStyle: TextStyle(color: Colors.black12, fontSize: 18),
                                         maxLines: 10,

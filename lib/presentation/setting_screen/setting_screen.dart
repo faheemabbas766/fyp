@@ -8,7 +8,6 @@ import 'package:fyp/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:fyp/widgets/app_bar/appbar_subtitle_two.dart';
 import 'package:fyp/widgets/custom_search_view.dart';
 import 'package:fyp/widgets/custom_bottom_bar.dart';
-import 'models/setting_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/setting_provider.dart';

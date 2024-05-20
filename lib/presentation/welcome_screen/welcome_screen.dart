@@ -1,6 +1,5 @@
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:fyp/widgets/custom_outlined_button.dart';
-import 'models/welcome_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/welcome_provider.dart';

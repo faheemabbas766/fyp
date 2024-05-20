@@ -98,12 +98,6 @@ class AppNavigationScreenState extends State<AppNavigationScreen> {
                         ),
                         _buildScreenTitle(
                           context,
-                          screenTitle: "PostReport Screen",
-                          onTapScreenTitle: () =>
-                              onTapScreenTitle(AppRoutes.postreportScreen),
-                        ),
-                        _buildScreenTitle(
-                          context,
                           screenTitle: "SwitchAccount Screen",
                           onTapScreenTitle: () =>
                               onTapScreenTitle(AppRoutes.switchaccountScreen),

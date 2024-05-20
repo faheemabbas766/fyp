@@ -9,7 +9,6 @@ import '../presentation/search_screen_container_screen/search_screen_container_s
 import '../presentation/dashboard1_screen/dashboard1_screen.dart';
 import '../presentation/dashboard2_screen/dashboard2_screen.dart';
 import '../presentation/commentreport_screen/commentreport_screen.dart';
-import '../presentation/postreport_screen/postreport_screen.dart';
 import '../presentation/switchaccount_screen/switchaccount_screen.dart';
 import '../presentation/setting_screen/setting_screen.dart';
 import '../presentation/addpost_screen/addpost_screen.dart';
@@ -48,8 +47,6 @@ class AppRoutes {
   static const String dashboard2Screen = '/dashboard2_screen';
 
   static const String commentreportScreen = '/commentreport_screen';
-
-  static const String postreportScreen = '/postreport_screen';
 
   static const String switchaccountScreen = '/switchaccount_screen';
 
@@ -96,8 +93,7 @@ class AppRoutes {
         dashboard1Screen: Dashboard1Screen.builder,
         dashboard2Screen: Dashboard2Screen.builder,
         commentreportScreen: CommentreportScreen.builder,
-        postreportScreen: PostreportScreen.builder,
-        switchaccountScreen: SwitchaccountScreen.builder,
+        switchaccountScreen: SwitchAccountScreen.builder,
         settingScreen: SettingScreen.builder,
         addPostScreen: AddPostScreen.builder,
         followingScreen: FollowingScreen.builder,

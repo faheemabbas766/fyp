@@ -3,7 +3,6 @@ import 'package:fyp/presentation/notification_screen_page/notification_screen_pa
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:fyp/widgets/custom_rating_bar.dart';
 import 'package:fyp/widgets/custom_bottom_bar.dart';
-import 'models/dashboard2_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'provider/dashboard2_provider.dart';
