@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:fyp/presentation/editprofile_screen/provider/editprofile_provider.dart';
 import 'package:fyp/widgets/custom_radio_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
