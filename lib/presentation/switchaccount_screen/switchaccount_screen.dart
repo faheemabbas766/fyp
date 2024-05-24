@@ -146,7 +146,7 @@ class SwitchAccountScreenState extends State<SwitchAccountScreen> {
                       BaseService.showLoading("Uploading Request...", context);
                       Map<String,String> body = {
                         'User_cnic':GlobalData.prefs.getString('cnic')!,
-                        'request_typerequest_type':Provider.of<SwitchAccountProvider>(context,listen: false).radioGroup,
+                        'request_type':Provider.of<SwitchAccountProvider>(context,listen: false).radioGroup,
                       };
                       Map<String, dynamic> fileFields = {
                         'request_document': _selectedImage,
