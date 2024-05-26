@@ -1,6 +1,3 @@
-import 'package:fyp/widgets/app_bar/custom_app_bar.dart';
-import 'package:fyp/widgets/app_bar/appbar_leading_image.dart';
-import 'package:fyp/widgets/custom_search_view.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';

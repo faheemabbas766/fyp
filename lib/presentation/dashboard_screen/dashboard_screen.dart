@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:fyp/home.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
@@ -40,6 +41,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                           children: [
+                            VideoPlayerWidget(videoUrl: BaseService.mediaUrl + "abc.mp4"),
                             CustomElevatedButton(
                               onPressed: (){
                                 provider.isShowLoading = true;

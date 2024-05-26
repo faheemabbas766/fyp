@@ -1,113 +1,75 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import 'package:chewie/chewie.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage();
+class VideoPlayerWidget extends StatefulWidget {
+  final String videoUrl;
+
+  VideoPlayerWidget({required this.videoUrl});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-  ];
-  String? selectedValue;
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+  late VideoPlayerController _videoPlayerController;
+  ChewieController? _chewieController;
+  bool _isError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeVideoPlayer();
+  }
+
+  Future<void> _initializeVideoPlayer() async {
+    try {
+      _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+      await _videoPlayerController.initialize();
+      _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        aspectRatio: _videoPlayerController.value.aspectRatio,
+        autoPlay: true,
+        looping: true,
+        showControls: true,
+        showControlsOnInitialize: true,
+        materialProgressColors: ChewieProgressColors(
+          playedColor: Colors.red,
+          handleColor: Colors.blue,
+          backgroundColor: Colors.grey,
+          bufferedColor: Colors.lightGreen,
+        ),
+      );
+      setState(() {});
+    } catch (e) {
+      setState(() {
+        _isError = true;
+      });
+      print('Error initializing video player: $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _videoPlayerController.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton2<String>(
-            isExpanded: true,
-            hint: const Row(
-              children: [
-                Icon(
-                  Icons.list,
-                  size: 16,
-                  color: Colors.yellow,
-                ),
-                SizedBox(
-                  width: 4,
-                ),
-                Expanded(
-                  child: Text(
-                    'Select Item',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.yellow,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-            items: items
-                .map((String item) => DropdownMenuItem<String>(
-              value: item,
-              child: Text(
-                item,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ))
-                .toList(),
-            value: selectedValue,
-            onChanged: (String? value) {
-              setState(() {
-                selectedValue = value;
-              });
-            },
-            buttonStyleData: ButtonStyleData(
-              height: 50,
-              width: 160,
-              padding: const EdgeInsets.only(left: 14, right: 14),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(
-                  color: Colors.black26,
-                ),
-                color: Colors.redAccent,
-              ),
-              elevation: 2,
-            ),
-            iconStyleData: const IconStyleData(
-              icon: Icon(
-                Icons.arrow_forward_ios_outlined,
-              ),
-              iconSize: 14,
-              iconEnabledColor: Colors.yellow,
-              iconDisabledColor: Colors.grey,
-            ),
-            dropdownStyleData: DropdownStyleData(
-              maxHeight: 200,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                color: Colors.redAccent,
-              ),
-              offset: const Offset(-20, 0),
-              scrollbarTheme: ScrollbarThemeData(
-                radius: const Radius.circular(40),
-                thickness: WidgetStateProperty.all<double>(6),
-                thumbVisibility: WidgetStateProperty.all<bool>(true),
-              ),
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-              height: 40,
-              padding: EdgeInsets.only(left: 14, right: 14),
-            ),
-          ),
-        ),
-      ),
+    if (_isError) {
+      return Center(
+        child: Text('Error loading video. Please try again later.'),
+      );
+    }
+
+    return _chewieController != null && _chewieController!.videoPlayerController.value.isInitialized
+        ? Chewie(
+      controller: _chewieController!,
+    )
+        : Center(
+      child: CircularProgressIndicator(),
     );
   }
 }

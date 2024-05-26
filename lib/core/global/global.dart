@@ -41,6 +41,34 @@ class GlobalData{
       }
     }
   }
+  static String getOrdinal(int number) {
+    if (number <= 0) {
+      throw ArgumentError('Number must be greater than zero');
+    }
+    String suffix;
+    int lastDigit = number % 10;
+    int lastTwoDigits = number % 100;
+
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 13) {
+      suffix = 'th';
+    } else {
+      switch (lastDigit) {
+        case 1:
+          suffix = 'st';
+          break;
+        case 2:
+          suffix = 'nd';
+          break;
+        case 3:
+          suffix = 'rd';
+          break;
+        default:
+          suffix = 'th';
+      }
+    }
+
+    return '$number$suffix';
+  }
 
   static void showSnackBar(String text,BuildContext context){
     ScaffoldMessenger.of(context).showSnackBar(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../../core/global/global.dart';
 import '../../../core/services/base_service.dart';
 import '../../visitprofile_screen/models/visitprofile_model.dart';
-import '../models/profile_model.dart';
 class ProfileProvider extends ChangeNotifier {
   late VisitProfileModel visitProfile;
   bool isLoading = true;

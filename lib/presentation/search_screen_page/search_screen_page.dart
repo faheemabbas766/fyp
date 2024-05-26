@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:fyp/widgets/custom_search_view.dart';
 import 'package:fyp/core/app_export.dart';
 import '../../core/global/global.dart';

@@ -43,6 +43,7 @@ class SplashScreenState extends State<SplashScreen>
   Future<void> _loadData() async {
     GlobalData.prefs = await SharedPreferences.getInstance();
     if (GlobalData.prefs.getString('cnic') == null) {
+      GlobalData.allPoliticianList = (await BaseService.postRequest('Main/AllPolitician', null)).map<Politician>((json) => Politician.fromJson(json)).toList();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
       );

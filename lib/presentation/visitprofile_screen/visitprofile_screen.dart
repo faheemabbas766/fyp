@@ -38,108 +38,112 @@ class VisitProfileScreenState extends State<VisitProfileScreen> {
             provider.isLoading?
             Center(child: CircularProgressIndicator(),)
                 :Container(
-              padding: EdgeInsets.symmetric(horizontal: 19.h),
+              padding: EdgeInsets.symmetric(horizontal: 10.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Align(
                         alignment: Alignment.center,
                         child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: InkWell(
-                                        onTap: (){
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(12.0),
-                                                ),
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      padding: EdgeInsets.all(8),
-                                                      child: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          ClipRRect(
-                                                            borderRadius: BorderRadius.circular(12.0),
-                                                            child: Image.network(
-                                                              BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                        ],
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Dialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(12.0),
+                                            ),
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  child: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      ClipRRect(
+                                                        borderRadius: BorderRadius.circular(12.0),
+                                                        child: Image.network(
+                                                          BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Positioned(
-                                                      top: 10,
-                                                      left: 10,
-                                                      child: IconButton(
-                                                        icon: Icon(Icons.arrow_back, color: Colors.white),
-                                                        onPressed: () {
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              );
-                                            },
+                                                Positioned(
+                                                  top: 10,
+                                                  left: 10,
+                                                  child: IconButton(
+                                                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         },
-                                        child: CircleAvatar(
-                                          radius: 40,
-                                          backgroundColor: Colors.transparent,
-                                          backgroundImage: NetworkImage(
-                                            BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
-                                          ),
-                                        ),
+                                      );
+                                    },
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      backgroundColor: Colors.transparent,
+                                      backgroundImage: NetworkImage(
+                                        BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
                                       ),
                                     ),
-                                    Text(provider.visitProfile.name,
-                                        style: CustomTextStyles.titleSmallRoboto)
-                                  ]),
-                              Padding(
-                                  padding: EdgeInsets.only(top: 25.v, bottom: 14.v),
-                                  child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                            width: 200.h,
-                                            margin: EdgeInsets.only(left: 2.h),
-                                            child: Row(
+                                  ),
+                                  SizedBox(height: 8), // Add some spacing between the CircleAvatar and the Text
+                                  Container(
+                                    height: 50,
+                                    width: MediaQuery.of(context).size.width/4,
+                                    child: Text(
+                                      provider.visitProfile.name,
+                                      maxLines: 5,
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: CustomTextStyles.titleSmallRoboto,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                        width: MediaQuery.of(context).size.width/1.5,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                _buildTwentyFive(context, oneHundred: GlobalData.getOrdinal(provider.visitProfile.rank), following: "Ranking",),
+                                                Expanded(child: SizedBox()),
+                                                _buildTwentyFive(context, oneHundred: provider.visitProfile.postsRating.toString(), following: "Posts Rating",),
+                                              ],
+                                            ),
+                                            Row(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  Column(
-                                                      crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                      children: [
-                                                        Padding(
-                                                            padding:
-                                                            EdgeInsets.only(left: 4.h),
-                                                            child: Text(provider.visitProfile.totalPost.toString(),
-                                                                style: CustomTextStyles.titleMediumRobotoBlack90005)),
-                                                        SizedBox(height: 2.v),
-                                                        Text("Posts",
-                                                            style:
-                                                            theme.textTheme.bodySmall)
-                                                      ]),
+                                                  _buildTwentyFive(context, oneHundred: provider.visitProfile.totalPost.toString(), following: "Posts",),
                                                   _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowed.toString(), following: "Following",),
                                                   _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowing.toString(), following: "Followed",)
-                                                ])),
-                                        SizedBox(height: 13.v),
-                                        Text(provider.visitProfile.userType+'\t'+provider.visitProfile.position,
-                                            style: CustomTextStyles
-                                                .titleSmallRoboto)
-                                      ]))
+                                                ]),
+                                          ],
+                                        )),
+                                    SizedBox(height: 13.v),
+                                    Text(provider.visitProfile.userType+'\t'+provider.visitProfile.position,
+                                        style: CustomTextStyles
+                                            .titleSmallRoboto),
+                                    ])
                             ])),
                     SizedBox(height: 38.v),
                     CustomElevatedButton(
@@ -196,12 +200,13 @@ class VisitProfileScreenState extends State<VisitProfileScreen> {
         required String oneHundred,
         required String following,
       }) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-          padding: EdgeInsets.only(left: 10.h),
-          child: Text(oneHundred,
-              style: CustomTextStyles.titleMediumRobotoBlack90005
-                  .copyWith(color: appTheme.black90005))),
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+      Text(oneHundred,
+          style: CustomTextStyles.titleMediumRobotoBlack90005
+              .copyWith(color: appTheme.black90005)),
       SizedBox(height: 3.v),
       Text(following,
           style:
