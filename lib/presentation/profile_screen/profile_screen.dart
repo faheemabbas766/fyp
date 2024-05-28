@@ -33,181 +33,183 @@ class ProfileScreenState extends State<ProfileScreen> {
     return SafeArea(
         child: Scaffold(
           appBar: AppBar(backgroundColor: Colors.transparent,),
-          body: Consumer<ProfileProvider>(
-            builder: (context, provider, child) =>
-            provider.isLoading?
-            Center(child: CircularProgressIndicator(),)
-                :Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.h),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Dialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12.0),
-                                        ),
-                                        child: Stack(
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(8),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  ClipRRect(
-                                                    borderRadius: BorderRadius.circular(12.0),
-                                                    child: Image.network(
-                                                      BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Positioned(
-                                              top: 10,
-                                              left: 10,
-                                              child: IconButton(
-                                                icon: Icon(Icons.arrow_back, color: Colors.white),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  radius: 40,
-                                  backgroundColor: Colors.transparent,
-                                  backgroundImage: NetworkImage(
-                                    BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 8), // Add some spacing between the CircleAvatar and the Text
-                              Container(
-                                height: 50,
-                                width: MediaQuery.of(context).size.width/4,
-                                child: Text(
-                                  provider.visitProfile.name,
-                                  maxLines: 5,
-                                  softWrap: true,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: CustomTextStyles.titleSmallRoboto,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
+          body: SingleChildScrollView(
+            child: Consumer<ProfileProvider>(
+              builder: (context, provider, child) =>
+              provider.isLoading?
+              Center(child: CircularProgressIndicator(),)
+                  :Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.h),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                    width: MediaQuery.of(context).size.width/1.6,
-                                    margin: EdgeInsets.only(left: 2.h),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            _buildTwentyFive(context, oneHundred: GlobalData.getOrdinal(provider.visitProfile.rank), following: "Ranking",),
-                                            Expanded(child: SizedBox()),
-                                            _buildTwentyFive(context, oneHundred: provider.visitProfile.postsRating.toString(), following: "Posts Rating",),
-                                          ],
-                                        ),
-                                        Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(12.0),
+                                          ),
+                                          child: Stack(
                                             children: [
-                                              Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              Container(
+                                                padding: EdgeInsets.all(8),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    Padding(
-                                                        padding:
-                                                        EdgeInsets.only(left: 4.h),
-                                                        child: Text(provider.visitProfile.totalPost.toString(),
-                                                            style: CustomTextStyles.titleMediumRobotoBlack90005)),
-                                                    SizedBox(height: 2.v),
-                                                    Text("Posts",
-                                                        style:
-                                                        theme.textTheme.bodySmall)
-                                                  ]),
-                                              InkWell(
-                                                  onTap: (){
-                                                    NavigatorService.pushNamed(
-                                                      AppRoutes.followingScreen,
-                                                    );
+                                                    ClipRRect(
+                                                      borderRadius: BorderRadius.circular(12.0),
+                                                      child: Image.network(
+                                                        BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: 10,
+                                                left: 10,
+                                                child: IconButton(
+                                                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
                                                   },
-                                                  child: _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowed.toString(), following: "Following",)),
-                                              InkWell(
-                                                  onTap: (){
-                                                    NavigatorService.pushNamed(
-                                                      AppRoutes.followedScreen,
-                                                    );
-                                                  },
-                                                  child: _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowing.toString(), following: "Followed",))
-                                            ]),
-                                      ],
-                                    )),
-                                SizedBox(height: 13.v),
-                                Text(provider.visitProfile.userType+'\t'+provider.visitProfile.position,
-                                    style: CustomTextStyles
-                                        .titleSmallRoboto)
-                              ])
-                        ]),
-                    SizedBox(height: 38.v),
-                    CustomElevatedButton(
-                        onPressed: () async {
-                          NavigatorService.pushNamed(
-                            AppRoutes.editProfileScreen,
-                          );
-                        },
-                        width: 261.h,
-                        text: 'Edit Profile',
-                        margin: EdgeInsets.only(right: 44.h)),
-                    SizedBox(height: 55.v),
-                    Column(
-                      children: [
-                        Container(
-                          height: 390,
-                          child: GridView.builder(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3, // 3 images per row
-                            ),
-                            itemCount: provider.visitProfile.userPosts.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: InkWell(
-                                  onTap: (){
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPostScreen(postData: provider.visitProfile,index: index,),));
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
                                   },
-                                  child: CustomImageView(
-                                    fit: BoxFit.cover,
-                                    imagePath: BaseService.mediaUrl + (provider.visitProfile.userPosts[index].postImage?? ""),
+                                  child: CircleAvatar(
+                                    radius: 40,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: NetworkImage(
+                                      BaseService.mediaUrl + "/profile/" + provider.visitProfile.picture,
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
+                                SizedBox(height: 8), // Add some spacing between the CircleAvatar and the Text
+                                Container(
+                                  height: 50,
+                                  width: MediaQuery.of(context).size.width/4,
+                                  child: Text(
+                                    provider.visitProfile.name,
+                                    maxLines: 5,
+                                    softWrap: true,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: CustomTextStyles.titleSmallRoboto,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      width: MediaQuery.of(context).size.width/1.6,
+                                      margin: EdgeInsets.only(left: 2.h),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              _buildTwentyFive(context, oneHundred: GlobalData.getOrdinal(provider.visitProfile.rank), following: "Ranking",),
+                                              Expanded(child: SizedBox()),
+                                              _buildTwentyFive(context, oneHundred: provider.visitProfile.postsRating.toString(), following: "Posts Rating",),
+                                            ],
+                                          ),
+                                          Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                          padding:
+                                                          EdgeInsets.only(left: 4.h),
+                                                          child: Text(provider.visitProfile.totalPost.toString(),
+                                                              style: CustomTextStyles.titleMediumRobotoBlack90005)),
+                                                      SizedBox(height: 2.v),
+                                                      Text("Posts",
+                                                          style:
+                                                          theme.textTheme.bodySmall)
+                                                    ]),
+                                                InkWell(
+                                                    onTap: (){
+                                                      NavigatorService.pushNamed(
+                                                        AppRoutes.followingScreen,
+                                                      );
+                                                    },
+                                                    child: _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowed.toString(), following: "Following",)),
+                                                InkWell(
+                                                    onTap: (){
+                                                      NavigatorService.pushNamed(
+                                                        AppRoutes.followedScreen,
+                                                      );
+                                                    },
+                                                    child: _buildTwentyFive(context, oneHundred: provider.visitProfile.totalFollowing.toString(), following: "Followed",))
+                                              ]),
+                                        ],
+                                      )),
+                                  SizedBox(height: 13.v),
+                                  Text(provider.visitProfile.userType+'\t'+provider.visitProfile.position,
+                                      style: CustomTextStyles
+                                          .titleSmallRoboto)
+                                ])
+                          ]),
+                      SizedBox(height: 38.v),
+                      CustomElevatedButton(
+                          onPressed: () async {
+                            NavigatorService.pushNamed(
+                              AppRoutes.editProfileScreen,
+                            );
+                          },
+                          width: 261.h,
+                          text: 'Edit Profile',
+                          margin: EdgeInsets.only(right: 44.h)),
+                      SizedBox(height: 55.v),
+                      Column(
+                        children: [
+                          Container(
+                            height: 390,
+                            child: GridView.builder(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3, // 3 images per row
+                              ),
+                              itemCount: provider.visitProfile.userPosts.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPostScreen(postData: provider.visitProfile,index: index,),));
+                                    },
+                                    child: CustomImageView(
+                                      fit: BoxFit.cover,
+                                      imagePath: BaseService.mediaUrl + (provider.visitProfile.userPosts[index].postImage?? ""),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
-                        ),
-
-                      ],
-                    )
-                  ]),
+            
+                        ],
+                      )
+                    ]),
+              ),
             ),
           ),
         )

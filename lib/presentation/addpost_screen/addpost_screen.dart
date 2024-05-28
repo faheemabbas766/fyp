@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:fyp/core/services/base_service.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:fyp/core/app_export.dart';
 import 'package:fyp/widgets/custom_text_form_field.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 import '../../core/global/global.dart';
 import 'provider/addpost_provider.dart';
 
@@ -25,35 +27,39 @@ class AddPostScreen extends StatefulWidget {
 
 class AddPostScreenState extends State<AddPostScreen> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  String? imagePath;
-  File? _selectedImage;
+  String? filePath;
+  File? _selectedFile;
   TextEditingController _textEditingController = TextEditingController();
   List<String> _suggestions = [];
   List<String> _filteredSuggestions = [];
   bool _showSuggestions = false;
   String _selectedPoliticianCNIC = '';
   TextEditingController politicianNameController = TextEditingController();
+  ImagePicker _imagePicker = ImagePicker();
+  VideoPlayerController? _videoController;
 
   @override
   void initState() {
     super.initState();
     politicianNameController.addListener(_onTextChanged);
-    _suggestions = List<String>.from(GlobalData.allPoliticianList.map(
-            (item) => "${item.politicianCNIC} - ${item.userFullName}"));
+    _suggestions = List<String>.from(GlobalData.allPoliticianList
+        .map((item) => "${item.politicianCNIC} - ${item.userFullName}"));
   }
 
   @override
   void dispose() {
     _textEditingController.dispose();
     politicianNameController.dispose();
+    _videoController?.dispose();
     super.dispose();
   }
 
   void _onTextChanged() {
     setState(() {
       _filteredSuggestions = _suggestions
-          .where((name) =>
-          name.toLowerCase().contains(politicianNameController.text.toLowerCase()))
+          .where((name) => name
+          .toLowerCase()
+          .contains(politicianNameController.text.toLowerCase()))
           .take(3)
           .toList();
       _showSuggestions = _filteredSuggestions.isNotEmpty;
@@ -69,19 +75,51 @@ class AddPostScreenState extends State<AddPostScreen> {
     FocusScope.of(context).requestFocus(FocusNode());
   }
 
-  ImagePicker _imagePicker = ImagePicker();
-  Future<void> pickImage(BuildContext context) async {
+  Future<void> pickMedia(BuildContext context) async {
     try {
-      final XFile? pickedFile =
-      await _imagePicker.pickImage(source: ImageSource.gallery);
+      final result = await showDialog<int>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Select media type'),
+          content: Text('Choose whether to pick an image or a video.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 0); // 0 represents image
+              },
+              child: Text('Image'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, 1); // 1 represents video
+              },
+              child: Text('Video'),
+            ),
+          ],
+        ),
+      );
+
+      if (result == null) return;
+
+      final XFile? pickedFile = result == 0
+          ? await _imagePicker.pickImage(source: ImageSource.gallery)
+          : await _imagePicker.pickVideo(source: ImageSource.gallery);
+
       if (pickedFile != null) {
-        _selectedImage = File(pickedFile.path);
+        _selectedFile = File(pickedFile.path);
+        if (pickedFile.path.endsWith('.mp4')) {
+          _videoController = VideoPlayerController.file(_selectedFile!)
+            ..initialize().then((_) {
+              setState(() {});
+              _videoController!.play();
+            });
+        }
         setState(() {
-          imagePath = _selectedImage!.path;
+          filePath = _selectedFile!.path;
         });
       }
     } catch (e) {
-      print('Error picking image: $e');
+      print('Error picking media: $e');
     }
   }
 
@@ -110,7 +148,8 @@ class AddPostScreenState extends State<AddPostScreen> {
                       onPressed: () async {
                         try {
                           if (_selectedPoliticianCNIC.isNotEmpty) {
-                            BaseService.showLoading("Post Uploading...", context);
+                            BaseService.showLoading(
+                                "Post Uploading...", context);
                             Map<String, String> body = {
                               'post_text': _textEditingController.text,
                               'user_cnic': GlobalData.prefs.getString('cnic')!,
@@ -118,7 +157,7 @@ class AddPostScreenState extends State<AddPostScreen> {
                               'politician_id': _selectedPoliticianCNIC,
                             };
                             Map<String, dynamic> fileFields = {
-                              'post_image': _selectedImage,
+                              'post_image': _selectedFile,
                             };
                             await BaseService.postRequest(
                                 'Main/AddPost', body,
@@ -126,10 +165,11 @@ class AddPostScreenState extends State<AddPostScreen> {
                             Navigator.of(context).pop();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Center(child: Text('Data Posted Successfully!')),
+                                content: Center(
+                                    child: Text('Data Posted Successfully!')),
                               ),
                             );
-                            _selectedImage = null;
+                            _selectedFile = null;
                             _textEditingController.clear();
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -196,7 +236,8 @@ class AddPostScreenState extends State<AddPostScreen> {
                                 .map(
                                   (suggestion) => ListTile(
                                 title: Text(suggestion.split('-')[1].trim()),
-                                onTap: () => _onSuggestionSelected(suggestion),
+                                onTap: () =>
+                                    _onSuggestionSelected(suggestion),
                               ),
                             )
                                 .toList(),
@@ -224,7 +265,7 @@ class AddPostScreenState extends State<AddPostScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                if (imagePath != null)
+                if (filePath != null)
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
@@ -232,13 +273,22 @@ class AddPostScreenState extends State<AddPostScreen> {
                     ),
                     child: InkWell(
                       onTap: () async {
-                        await pickImage(context);
+                        await pickMedia(context);
                         setState(() {});
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
-                        child: Image.file(
-                          File(imagePath ?? ''),
+                        child: filePath!.endsWith('.mp4')
+                            ? _videoController != null &&
+                            _videoController!.value.isInitialized
+                            ? AspectRatio(
+                          aspectRatio:
+                          _videoController!.value.aspectRatio,
+                          child: VideoPlayer(_videoController!),
+                        )
+                            : Center(child: CircularProgressIndicator())
+                            : Image.file(
+                          File(filePath!),
                           fit: BoxFit.cover,
                           width: double.infinity,
                           height: 200,
@@ -250,7 +300,7 @@ class AddPostScreenState extends State<AddPostScreen> {
                   Center(
                     child: IconButton(
                       onPressed: () async {
-                        await pickImage(context);
+                        await pickMedia(context);
                         setState(() {});
                       },
                       icon: Icon(

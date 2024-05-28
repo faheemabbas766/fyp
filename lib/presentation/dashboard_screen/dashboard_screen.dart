@@ -1,6 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:fyp/home.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
@@ -41,7 +40,6 @@ class DashboardScreenState extends State<DashboardScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                           children: [
-                            VideoPlayerWidget(videoUrl: BaseService.mediaUrl + "abc.mp4"),
                             CustomElevatedButton(
                               onPressed: (){
                                 provider.isShowLoading = true;
@@ -200,7 +198,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                                 },
                                                                 child: Text(provider.allPosts[index].followed ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,)),
                                                             SizedBox(
-                                                              width: MediaQuery.of(context).size.height / 7.35,
+                                                              width: MediaQuery.of(context).size.height / 7.40,
                                                               child: Align(
                                                                   alignment: Alignment.centerRight,
                                                                   child: Text(provider.allPosts[index].postUC,style: CustomTextStyles.titleSmallRobotoSemiBold,)),
@@ -241,12 +239,34 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           },
                                         ),
                                       ),
-                                      provider.allPosts[index].postImage!=null?Container(
-                                        width: double.maxFinite,
-                                        child: CustomImageView(
-                                          height: 300,
-                                          fit: BoxFit.cover,
-                                          imagePath: BaseService.mediaUrl+(provider.allPosts[index].postImage??""),
+                                      provider.allPosts[index].postImage!=null?InkWell(
+                                        onTap: (){
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return Dialog(
+                                                backgroundColor: Colors.transparent,
+                                                insetPadding: EdgeInsets.all(10),
+                                                child: InteractiveViewer(
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    child: Image.network(
+                                                      BaseService.mediaUrl + provider.allPosts[index].postImage!,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Container(
+                                          width: double.maxFinite,
+                                          child: CustomImageView(
+                                            height: 300,
+                                            fit: BoxFit.cover,
+                                            imagePath: BaseService.mediaUrl+provider.allPosts[index].postImage!,
+                                          ),
                                         ),
                                       ):Container(),
                                       Row(

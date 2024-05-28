@@ -194,6 +194,9 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                           widget.postData.userPosts[widget.index].rateScore= i+1;
                                           Provider.of<DashboardProvider>(context, listen: false).notifier();
                                           Provider.of<DashboardProvider>(context, listen: false).ratePost(0);
+                                          setState(() {
+
+                                          });
                                         },
                                         child: Icon(i<widget.postData.userPosts[widget.index].rateScore? Icons.star:Icons.star_border, color: Colors.yellow)),
                                   ),

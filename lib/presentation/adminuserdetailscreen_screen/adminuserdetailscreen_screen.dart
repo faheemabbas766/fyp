@@ -190,7 +190,7 @@ class AdminuserdetailScreenState
   /// Navigates to the adminmanageusersScreen when the action is triggered.
   onTapArrowDown(BuildContext context) {
     NavigatorService.pushNamed(
-      AppRoutes.adminmanageusersScreen,
+      AppRoutes.adminManageUsersScreen,
     );
   }
 }

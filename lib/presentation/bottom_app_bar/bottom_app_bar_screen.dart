@@ -6,6 +6,7 @@ import 'package:fyp/presentation/profile_screen/profile_screen.dart';
 import 'package:fyp/presentation/search_screen_container_screen/search_screen_container_screen.dart';
 import 'package:fyp/widgets/custom_elevated_button.dart';
 import '../../core/app_export.dart';
+import '../drawer/drawer.dart';
 import 'provider/bottom_app_bar_provider.dart';
 
 class BottomAppBarScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class BottomAppBarScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<BottomAppBarScreen> {
   final _pageController = PageController(initialPage: 0);
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _controller = NotchBottomBarController(index: 0);
   int maxCount = 4;
   @override
@@ -51,6 +53,7 @@ class _MyHomePageState extends State<BottomAppBarScreen> {
                     },
                     text: 'No',
                   ),
+                  SizedBox(height: 20,),
                   CustomElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop(true);
@@ -63,6 +66,20 @@ class _MyHomePageState extends State<BottomAppBarScreen> {
           );
         },
         child:Scaffold(
+          key: _scaffoldKey,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: (){
+            _scaffoldKey.currentState!.openDrawer();
+          },child: Icon(Icons.ac_unit_outlined),),
+          drawer: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75 < 400 ? MediaQuery.of(context).size.width * 0.72 : 350,
+            child: const Drawer(
+              child: AppDrawer(
+                selectItemName: 'Home',
+              ),
+            ),
+          ),
           body: PageView(
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(),

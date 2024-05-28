@@ -64,7 +64,7 @@ class AppNavigationScreenState extends State<AppNavigationScreen> {
                           context,
                           screenTitle: "AdminManageUsersScreen",
                           onTapScreenTitle: () => onTapScreenTitle(
-                              AppRoutes.adminmanageusersScreen),
+                              AppRoutes.adminManageUsersScreen),
                         ),
                         _buildScreenTitle(
                           context,

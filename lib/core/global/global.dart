@@ -8,12 +8,15 @@ class GlobalData{
   static String profileCnic = '';
   static String postId = '3';
   static String commentId = '1';
-  static String getPoliticianById(String cnic){
-    for(int i=0;i<allPoliticianList.length;i++){
-      if(allPoliticianList[i].politicianCNIC == cnic)
-        return allPoliticianList[i].userFullName;
+  static String getPoliticianById(String cnic) {
+    try {
+      cnic = cnic.replaceAll(RegExp(r'\s+'), '');
+      return allPoliticianList.firstWhere(
+              (politician) => politician.politicianCNIC == cnic
+      ).userFullName;
+    } catch (e) {
+      return "Not Found";
     }
-    return "Not Match";
   }
   static String timeAgo(DateTime date) {
     final Duration diff = DateTime.now().difference(date);

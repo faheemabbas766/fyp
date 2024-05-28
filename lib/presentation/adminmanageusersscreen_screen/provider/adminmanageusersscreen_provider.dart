@@ -7,7 +7,7 @@ import '../models/adminmanageusersscreen_model.dart';
 /// current adminmanageusersscreenModelObj
 
 // ignore_for_file: must_be_immutable
-class AdminmanageusersscreenProvider extends ChangeNotifier {
+class AdminManageUsersScreenProvider extends ChangeNotifier {
   AdminmanageusersscreenModel adminmanageusersscreenModelObj =
       AdminmanageusersscreenModel();
 

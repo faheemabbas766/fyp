@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'package:fyp/core/services/base_service.dart';
+import 'package:fyp/presentation/admindashboardscreen_screen/admindashboardscreen_screen.dart';
 import 'package:fyp/presentation/welcome_screen/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/global/global.dart';
@@ -49,9 +50,15 @@ class SplashScreenState extends State<SplashScreen>
       );
     } else {
       GlobalData.allPoliticianList = (await BaseService.postRequest('Main/AllPolitician', null)).map<Politician>((json) => Politician.fromJson(json)).toList();
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => BottomAppBarScreen()),
-      );
+      if(GlobalData.prefs.getString('role') == "Admin"){
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => AdmindashboardScreen()),
+        );
+      }else{
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => BottomAppBarScreen()),
+        );
+      }
     }
   }
 

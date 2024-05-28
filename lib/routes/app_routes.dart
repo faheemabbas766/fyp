@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/presentation/bottom_app_bar/bottom_app_bar_screen.dart';
+import '../presentation/adminmanageusersscreen_screen/adminmanageusersscreen_screen.dart';
 import '../presentation/splash_screen/splash_screen.dart';
 import '../presentation/admindashboardscreen_screen/admindashboardscreen_screen.dart';
 import '../presentation/adminreportsscreen_screen/adminreportsscreen_screen.dart';
-import '../presentation/adminmanageusersscreen_screen/adminmanageusersscreen_screen.dart';
 import '../presentation/welcome_screen/welcome_screen.dart';
 import '../presentation/search_screen_container_screen/search_screen_container_screen.dart';
 import '../presentation/commentreport_screen/commentreport_screen.dart';
@@ -30,8 +30,7 @@ class AppRoutes {
 
   static const String adminreportsScreen = '/adminreportsscreen_screen';
 
-  static const String adminmanageusersScreen =
-      '/adminmanageusersscreen_screen';
+  static const String adminManageUsersScreen = '/adminmanageusersscreen_screen';
 
   static const String welcomeScreen = '/welcome_screen';
 
@@ -81,7 +80,7 @@ class AppRoutes {
         splashScreen: SplashScreen.builder,
         admindashboardScreen: AdmindashboardScreen.builder,
         adminreportsScreen: AdminreportsScreen.builder,
-        adminmanageusersScreen: AdminmanageusersScreen.builder,
+        adminManageUsersScreen: AdminManageUsersScreen.builder,
         welcomeScreen: WelcomeScreen.builder,
         searchScreenContainerScreen: SearchScreenContainerScreen.builder,
     commentreportScreen: CommentreportScreen.builder,
