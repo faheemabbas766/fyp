@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fyp/core/services/base_service.dart';
 import 'package:fyp/widgets/custom_text_form_field.dart';
 import 'package:fyp/widgets/custom_drop_down.dart';
 import 'models/sgin_up_model.dart';
@@ -384,13 +385,14 @@ class SginUpScreenState extends State<SginUpScreen> {
                                                     .titleMediumLato,
                                                 onPressed: () async {
                                                   if (_formKey.currentState!.validate()) {
+                                                    BaseService.showLoading("Signing Up...", context);
                                                     if(await Provider.of<SginUpProvider>(context, listen: false).signUp()){
-                                                      onTapSIGNUP(context);
                                                       ScaffoldMessenger.of(context).showSnackBar(
                                                         SnackBar(
                                                           content: Text('Sign Up Successfully!'),
                                                         ),
                                                       );
+                                                      onTapSIGNUP(context);
                                                     }else{
                                                       ScaffoldMessenger.of(context).showSnackBar(
                                                         SnackBar(

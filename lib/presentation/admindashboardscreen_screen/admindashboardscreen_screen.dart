@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:fyp/core/app_export.dart';
 import 'package:fyp/core/global/global.dart';
-import '../../widgets/custom_elevated_button.dart';
 import 'provider/admindashboardscreen_provider.dart';
 
 class AdmindashboardScreen extends StatefulWidget {
@@ -46,179 +46,131 @@ class AdmindashboardScreenState extends State<AdmindashboardScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Column(
-          children: [
-            const Spacer(flex: 10),
-            Text(
-              'Welcome to Admin Dashboard',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade200, Theme.of(context).primaryColor],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-            const Spacer(flex: 10),
-            RotationTransition(
-              turns: _animation,
-              child: Container(
-                width: 200.v,
-                child: RotationTransition(
-                  turns: _animation,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 30),
+              Text(
+                'Welcome to Admin Dashboard',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 20),
+              RotationTransition(
+                turns: _animation,
+                child: Container(
+                  width: 200,
                   child: CustomImageView(
                     imagePath: ImageConstant.imgPTreatmanet1,
                   ),
                 ),
               ),
-            ),
-            const Spacer(flex: 10),
-            Text(
-              GlobalData.prefs.getString('full_name')!,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              const SizedBox(height: 20),
+              Text(
+                GlobalData.prefs.getString('full_name')!,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
               ),
-            ),
-            const Spacer(flex: 10),
-            Padding(
-              padding: const EdgeInsets.all(30),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.report,
-                          color: Theme.of(context).primaryColor,
-                          size: 50,
-                        ),
-                        onPressed: () {
-                          NavigatorService.pushNamed(
-                            AppRoutes.adminreportsScreen,
-                          );
-                        },
-                      ),
-                      Text(
-                        "All Reports",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.security_update_good_rounded,
-                          color: Theme.of(context).primaryColor,
-                          size: 50,
-                        ),
-                        onPressed: () {
-                          NavigatorService.pushNamed(
-                            AppRoutes.adminManageUsersScreen,
-                          );
-                        },
-                      ),
-                      Text(
-                        "All Requests",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(30),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.report,
-                          color: Theme.of(context).primaryColor,
-                          size: 50,
-                        ),
-                        onPressed: () {
-                          NavigatorService.pushNamed(
-                            AppRoutes.adminreportsScreen,
-                          );
-                        },
-                      ),
-                      Text(
-                        "Reports",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      IconButton(
-                        icon: Icon(
-                          Icons.people,
-                          color: Theme.of(context).primaryColor,
-                          size: 50,
-                        ),
-                        onPressed: () {
-                          NavigatorService.pushNamed(
-                            AppRoutes.adminManageUsersScreen,
-                          );
-                        },
-                      ),
-                      Text(
-                        "Manage Users",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 20),
-            InkWell(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              onTap: () {
-                  GlobalData.prefs.clear();
-                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.welcomeScreen, (Route<dynamic> route) => false);
-              },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.logout,
-                    size: 20,
-                    color: Theme.of(context).disabledColor.withOpacity(0.2),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text('Logout',
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.titleLarge!.color,
+              const SizedBox(height: 30),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  padding: const EdgeInsets.all(20.0),
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  children: [
+                    _buildDashboardCard(
+                      icon: Icons.report,
+                      label: "All Reports",
+                      onPressed: () {
+                        NavigatorService.pushNamed(AppRoutes.adminreportsScreen);
+                      },
                     ),
-                  ),
-                ],
+                    _buildDashboardCard(
+                      icon: Icons.flag,
+                      label: "All Parties",
+                      onPressed: () {
+                        NavigatorService.pushNamed(AppRoutes.allPartiesScreen);
+                      },
+                    ),
+                    _buildDashboardCard(
+                      icon: Icons.people,
+                      label: "Manage Users",
+                      onPressed: () {
+                        NavigatorService.pushNamed(AppRoutes.adminManageUsersScreen);
+                      },
+                    ),
+                    _buildDashboardCard(
+                      icon: Icons.logout,
+                      label: "Log Out",
+                      onPressed: () {
+                        GlobalData.prefs.clear();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutes.welcomeScreen,
+                              (Route<dynamic> route) => false,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const Spacer(flex: 20),
-          ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDashboardCard({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: InkWell(
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: Theme.of(context).primaryColor,
+                size: 50,
+              ),
+              const SizedBox(height: 20),
+              Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

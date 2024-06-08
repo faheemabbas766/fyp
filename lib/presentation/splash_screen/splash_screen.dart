@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
 import 'package:fyp/core/services/base_service.dart';
 import 'package:fyp/presentation/admindashboardscreen_screen/admindashboardscreen_screen.dart';
+import 'package:fyp/presentation/switchaccount_screen/models/switchaccount_model.dart';
 import 'package:fyp/presentation/welcome_screen/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/global/global.dart';
@@ -45,11 +46,13 @@ class SplashScreenState extends State<SplashScreen>
     GlobalData.prefs = await SharedPreferences.getInstance();
     if (GlobalData.prefs.getString('cnic') == null) {
       GlobalData.allPoliticianList = (await BaseService.postRequest('Main/AllPolitician', null)).map<Politician>((json) => Politician.fromJson(json)).toList();
+      GlobalData.parties = (await BaseService.postRequest('Main/AllParties', null)).map<Party>((json) => Party.fromJson(json)).toList();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => WelcomeScreen()),
       );
     } else {
       GlobalData.allPoliticianList = (await BaseService.postRequest('Main/AllPolitician', null)).map<Politician>((json) => Politician.fromJson(json)).toList();
+      GlobalData.parties = (await BaseService.postRequest('Main/AllParties', null)).map<Party>((json) => Party.fromJson(json)).toList();
       if(GlobalData.prefs.getString('role') == "Admin"){
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => AdmindashboardScreen()),

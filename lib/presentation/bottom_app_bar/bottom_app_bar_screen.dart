@@ -71,7 +71,7 @@ class _MyHomePageState extends State<BottomAppBarScreen> {
             backgroundColor: Theme.of(context).primaryColor,
             onPressed: (){
             _scaffoldKey.currentState!.openDrawer();
-          },child: Icon(Icons.ac_unit_outlined),),
+          },child: Icon(Icons.account_circle_outlined),),
           drawer: SizedBox(
             width: MediaQuery.of(context).size.width * 0.75 < 400 ? MediaQuery.of(context).size.width * 0.72 : 350,
             child: const Drawer(

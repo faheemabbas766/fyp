@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp/core/app_export.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/global/global.dart';
 import '../../core/services/base_service.dart';

@@ -54,7 +54,6 @@ class SginUpProvider extends ChangeNotifier {
     isShowPassword = !isShowPassword;
     notifyListeners();
   }
-
   Future<bool> signUp() async {
     Map<String, String> requestBody = {
       'cnic': cnicController.text,
@@ -67,11 +66,10 @@ class SginUpProvider extends ChangeNotifier {
       'user_phone': phoneController.text,
     };
     try {
-      String? imagePath = getSelectedImagePath();
-      if (imagePath != null) {
-        requestBody['image_path'] = imagePath;
-      }
-      dynamic response = await BaseService.postRequest("Auth/SignUp", requestBody);
+      Map<String, dynamic> fileFields = {
+        'user_pic': File(getSelectedImagePath()!),
+      };
+      dynamic response = await BaseService.postRequest("Auth/SignUp", requestBody, fileFields: fileFields);
       print(response.toString());
       return true;
     } catch (e) {

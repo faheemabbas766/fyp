@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-import '../models/adminuserdetailscreen_model.dart';
+import 'package:fyp/presentation/adminuserdetailscreen_screen/models/adminuserdetailscreen_model.dart';
 
-/// A provider class for the AdminuserdetailScreen.
-///
-/// This provider manages the state of the AdminuserdetailScreen, including the
-/// current adminuserdetailscreenModelObj
-
-// ignore_for_file: must_be_immutable
+import '../../../core/global/global.dart';
+import '../../../core/services/base_service.dart';
 class AdminuserdetailscreenProvider extends ChangeNotifier {
-  AdminuserdetailscreenModel adminuserdetailscreenModelObj =
-      AdminuserdetailscreenModel();
-
-  @override
-  void dispose() {
-    super.dispose();
+  late AdminRequestProfileModel requestProfile;
+  bool isLoading = true;
+  loadData() async {
+    requestProfile = await getProfileInfoById(GlobalData.profileCnic);
+    isLoading = false;
+    notifyListeners();
+  }
+  Future<AdminRequestProfileModel> getProfileInfoById(String ProfileCnic) async {
+    Map<String, String> requestBody ={
+      'profileCnic':ProfileCnic,
+      'cnic':GlobalData.prefs.getString('cnic')!
+    };
+    dynamic response = await BaseService.postRequest("Main/UserInfoById", requestBody);
+    Map<String, dynamic> jsonData = response;
+    return AdminRequestProfileModel.fromJson(jsonData);
   }
 }

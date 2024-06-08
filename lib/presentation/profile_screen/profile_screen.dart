@@ -122,9 +122,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                                       child: Column(
                                         children: [
                                           Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               _buildTwentyFive(context, oneHundred: GlobalData.getOrdinal(provider.visitProfile.rank), following: "Ranking",),
-                                              Expanded(child: SizedBox()),
+                                              _buildTwentyFive(context, oneHundred: provider.visitProfile.popScore.toString(), following: "Pop Rating"),
                                               _buildTwentyFive(context, oneHundred: provider.visitProfile.postsRating.toString(), following: "Posts Rating",),
                                             ],
                                           ),
@@ -192,14 +193,30 @@ class ProfileScreenState extends State<ProfileScreen> {
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.all(5.0),
-                                  child: InkWell(
-                                    onTap: (){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPostScreen(postData: provider.visitProfile,index: index,),));
-                                    },
-                                    child: CustomImageView(
-                                      fit: BoxFit.cover,
-                                      imagePath: BaseService.mediaUrl + (provider.visitProfile.userPosts[index].postImage?? ""),
-                                    ),
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      CustomImageView(
+                                        fit: BoxFit.cover,
+                                        imagePath: BaseService.mediaUrl + (provider.visitProfile.userPosts[index].postImage ?? ""),
+                                      ),
+                                      Positioned(
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) => ViewPostScreen(
+                                                  postData: provider.visitProfile,
+                                                  index: index,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 );
                               },

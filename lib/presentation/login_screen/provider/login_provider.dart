@@ -29,11 +29,13 @@ class LoginProvider extends ChangeNotifier {
       'password': passwordController.text,
     };
     try{
+      BaseService.showLoading("Login...", context);
       dynamic response = await BaseService.postRequest("Auth/Login", requestBody);
       SharedPreferences pref = await SharedPreferences.getInstance();
       response.forEach((key, value) {
         pref.setString(key, value.toString());
       });
+      Navigator.pop(context);
       GlobalData.showSnackBar("Login Successful!", context);
       print(response.toString());
       Set<String> keys = pref.getKeys();
@@ -50,6 +52,7 @@ class LoginProvider extends ChangeNotifier {
         );
       }
     }catch(e){
+      Navigator.pop(context);
       GlobalData.showSnackBar("Login Failed:::${e.toString()}", context);
       print(e);
     }

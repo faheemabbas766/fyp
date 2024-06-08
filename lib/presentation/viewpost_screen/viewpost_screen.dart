@@ -131,6 +131,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
+                                              GlobalData.prefs.getString('cnic')!=widget.postData.cnic?
                                               InkWell(
                                                   onTap: () async {
                                                     if (await Provider.of<DashboardProvider>(context, listen: false).FollowById(widget.postData.cnic)) {
@@ -141,6 +142,8 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                                     }
                                                   },
                                                   child: Text(widget.postData.isFollow ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,))
+                                                  :SizedBox(
+                                                width: MediaQuery.of(context).size.height / 15.40,),
                                             ],
                                           ),
                                         ])),

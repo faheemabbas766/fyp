@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp/presentation/allPartiesScreen_screen/allParties_screen.dart';
 import 'package:fyp/presentation/bottom_app_bar/bottom_app_bar_screen.dart';
 import '../presentation/adminmanageusersscreen_screen/adminmanageusersscreen_screen.dart';
 import '../presentation/splash_screen/splash_screen.dart';
@@ -24,6 +25,9 @@ import '../presentation/app_navigation_screen/app_navigation_screen.dart';
 
 class AppRoutes {
   static const String splashScreen = '/splash_screen';
+
+  static const String allPartiesScreen = '/allPartiesScreen_screen';
+
 
   static const String admindashboardScreen =
       '/admindashboardscreen_screen';
@@ -79,7 +83,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> get routes => {
         splashScreen: SplashScreen.builder,
         admindashboardScreen: AdmindashboardScreen.builder,
-        adminreportsScreen: AdminreportsScreen.builder,
+        adminreportsScreen: AdminReportsScreen.builder,
         adminManageUsersScreen: AdminManageUsersScreen.builder,
         welcomeScreen: WelcomeScreen.builder,
         searchScreenContainerScreen: SearchScreenContainerScreen.builder,
@@ -99,6 +103,7 @@ class AppRoutes {
         editProfileScreen: EditprofileScreen.builder,
         appNavigationScreen: AppNavigationScreen.builder,
         initialRoute: SplashScreen.builder,
-        homeScreen: BottomAppBarScreen.builder
+        homeScreen: BottomAppBarScreen.builder,
+        AppRoutes.allPartiesScreen: AllPartiesScreen.builder
       };
 }

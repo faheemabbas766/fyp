@@ -18,7 +18,8 @@ class VisitProfileModel {
   bool isFollow;
   final List<PostModel> userPosts;
   final double postsRating; // Added field
-  final int rank; // Added field
+  final int rank;
+  final int popScore;
 
   VisitProfileModel({
     required this.id,
@@ -40,7 +41,8 @@ class VisitProfileModel {
     required this.isFollow,
     required this.userPosts,
     required this.postsRating, // Initialize new field
-    required this.rank, // Initialize new field
+    required this.rank,
+    required this.popScore,
   });
 
   factory VisitProfileModel.fromJson(Map<String, dynamic> json) {
@@ -66,7 +68,8 @@ class VisitProfileModel {
           .map((postJson) => PostModel.fromJson(postJson))
           .toList(),
       postsRating: json['postsRating'].toDouble(), // Parse new field
-      rank: json['rank'], // Parse new field
+      rank: json['rank'],
+      popScore: json['popScore']
     );
   }
 

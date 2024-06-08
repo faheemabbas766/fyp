@@ -7,6 +7,7 @@ import '../models/dashboard_model.dart';
 class DashboardProvider extends ChangeNotifier {
   PostDashboardModel? dashboardModelObj;
   bool isShowLoading = true;
+  String? uc;
   late List<PostDashboardModel> allPosts;
 
   String? selectedReportType;
@@ -160,12 +161,12 @@ class DashboardProvider extends ChangeNotifier {
       ),
     );
   }
-  Future<List<PostDashboardModel>> getAllPosts(String? uc) async {
+  Future<List<PostDashboardModel>> getAllPosts() async {
     Map<String, String> requestBody = {
       'cnic': GlobalData.prefs.getString('cnic')!,
     };
     if (uc != null) {
-      requestBody['uc'] = uc;
+      requestBody['uc'] = uc!;
     }
     dynamic response = await BaseService.postRequest("Main/AllPost", requestBody);
     final parsed = response.cast<Map<String, dynamic>>();
@@ -192,8 +193,8 @@ class DashboardProvider extends ChangeNotifier {
     dynamic response = await BaseService.postRequest("Main/FollowById", requestBody);
     return true;
   }
-  loadData(String? uc) async {
-    allPosts = await getAllPosts(uc);
+  loadData() async {
+    allPosts = await getAllPosts();
     isShowLoading = false;
     notifyListeners();
   }

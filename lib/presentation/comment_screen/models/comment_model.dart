@@ -28,7 +28,7 @@ class CommentModel {
       commentId: json['comment_id'],
       commentText: json['comment_text'],
       commentDate: DateTime.parse(json['comment_date']),
-      postId: json['post_id'],
+      postId: json['Post_id'],
     );
   }
 }

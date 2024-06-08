@@ -8,8 +8,8 @@ import '../apis/app_exception.dart';
 
 abstract class BaseService {
   static String ip = '192.168.43.57'; //my phone ip
-  // static String ip = '192.168.0.105';
-  static String baseUrl = "http://$ip/FypApi/";
+  // static String ip = '92.168.0.101';
+  static String baseUrl  = "http://$ip/FypApi/";
   static String mediaUrl = "http://$ip/FypApi/Uploads/";
   static showLoading(String text, BuildContext context) {
     showDialog(

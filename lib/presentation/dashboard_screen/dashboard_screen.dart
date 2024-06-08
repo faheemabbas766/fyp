@@ -24,7 +24,7 @@ class DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<DashboardProvider>(context, listen: false).loadData(null);
+    Provider.of<DashboardProvider>(context, listen: false).loadData();
   }
 
   @override
@@ -42,25 +42,23 @@ class DashboardScreenState extends State<DashboardScreen> {
                           children: [
                             CustomElevatedButton(
                               onPressed: (){
-                                provider.isShowLoading = true;
-                                provider.notifier();
-                                provider.loadData(GlobalData.prefs.getString('user_uc')!);
+                                if(provider.uc==null){
+                                  provider.isShowLoading = true;
+                                  provider.notifier();
+                                  provider.uc = GlobalData.prefs.getString('user_uc');
+                                  provider.loadData();
+                                }else{
+                                  provider.isShowLoading = true;
+                                  provider.notifier();
+                                  provider.uc = null;
+                                  provider.loadData();
+                                }
                               },
                               height: 56.v,
-                              text: "UC",
+                              text: provider.uc == null?"All":"UC",
                               buttonStyle: CustomButtonStyles.outlineBlack,
                               buttonTextStyle: TextStyle(fontSize: 20, color: Colors.white),),
                             SizedBox(height: 10,),
-                            CustomElevatedButton(
-                              onPressed: (){
-                                provider.isShowLoading = true;
-                                provider.notifier();
-                                provider.loadData(null);
-                              },
-                              height: 56.v,
-                              text: "ALL",
-                              buttonStyle: CustomButtonStyles.outlineBlack,
-                              buttonTextStyle: TextStyle(fontSize: 20, color: Colors.white),),
                           ]
                       ),
                     ),
@@ -187,6 +185,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                                 overflow: TextOverflow.ellipsis,
                                                               ),
                                                             ),
+                                                            GlobalData.prefs.getString('cnic')!=provider.allPosts[index].userCNIC?
                                                             InkWell(
                                                                 onTap: () async {
                                                                   if (await provider.FollowById(provider.allPosts[index].userCNIC)) {
@@ -196,7 +195,8 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                                     provider.notifier();
                                                                   }
                                                                 },
-                                                                child: Text(provider.allPosts[index].followed ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,)),
+                                                                child: Text(provider.allPosts[index].followed ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,))
+                                                                : Text( "Own Post",style: CustomTextStyles.titleSmallRobotoSemiBold,),
                                                             SizedBox(
                                                               width: MediaQuery.of(context).size.height / 7.40,
                                                               child: Align(

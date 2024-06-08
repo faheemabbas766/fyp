@@ -206,7 +206,7 @@ class VideoPlayerScreenState extends State<VideoPlayerScreen> {
             child: Stack(
               alignment: Alignment.bottomCenter,
               children: <Widget>[
-                VideoPlayer(_controller),
+                VideoPlayer(_controller,),
                 ClosedCaption(text: _controller.value.caption.text),
                 _PlayPauseOverlay(controller: _controller),
                 VideoProgressIndicator(_controller, allowScrubbing: true),
@@ -237,7 +237,7 @@ class _PlayPauseOverlay extends StatelessWidget {
             color: Colors.black26,
             child: Center(
               child: Icon(
-                Icons.play_arrow,
+                Icons.play_circle,
                 color: Colors.white,
                 size: 50.0,
               ),

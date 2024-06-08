@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:fyp/data/models/politician_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../presentation/adminmanageusersscreen_screen/models/adminmanageusersscreen_model.dart';
+import '../../presentation/switchaccount_screen/models/switchaccount_model.dart';
+
 class GlobalData{
   static late List<Politician> allPoliticianList;
+  static List<Party> parties= [];
   static late SharedPreferences prefs;
   static String profileCnic = '';
+  static late RequestModel temp;
   static String postId = '3';
   static String commentId = '1';
   static String getPoliticianById(String cnic) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fyp/presentation/adminreportsscreen_screen/provider/adminreportsscreen_provider.dart';
+import 'package:fyp/presentation/adminuserdetailscreen_screen/provider/adminuserdetailscreen_provider.dart';
 import 'package:fyp/presentation/comment_screen/provider/comment_provider.dart';
 import 'package:fyp/presentation/dashboard_screen/provider/dashboard_provider.dart';
 import 'package:fyp/presentation/followed_screen/provider/followed_provider.dart';
@@ -28,7 +30,6 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MultiProvider(
-          // Use MultiProvider for multiple providers
           providers: [
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
             ChangeNotifierProvider(create: (_) => LoginProvider()),
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => ProfileProvider()),
             ChangeNotifierProvider(create: (_) => FollowedProvider()),
             ChangeNotifierProvider(create: (_) => FollowingProvider()),
+            ChangeNotifierProvider(create: (_) => AdminReportsProvider()),
+            ChangeNotifierProvider(create: (_) => AdminuserdetailscreenProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
