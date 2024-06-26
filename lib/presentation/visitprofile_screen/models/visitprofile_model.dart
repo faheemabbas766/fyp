@@ -1,4 +1,5 @@
-class VisitProfileModel {
+class
+VisitProfileModel {
   final String id;
   final String cnic;
   final String name;
@@ -40,7 +41,7 @@ class VisitProfileModel {
     required this.createdDate,
     required this.isFollow,
     required this.userPosts,
-    required this.postsRating, // Initialize new field
+    required this.postsRating,
     required this.rank,
     required this.popScore,
   });
@@ -108,13 +109,13 @@ class PostModel {
   final String userPicture;
   final String accountType;
   final String position;
-  final int totalRating;
+  final double totalRating;
   final String? recentComment;
   final DateTime? recentCommentDate;
   final String status;
   final String politicianId;
   int rateScore;
-  final bool followed;
+  bool followed;
 
   PostModel({
     required this.postId,

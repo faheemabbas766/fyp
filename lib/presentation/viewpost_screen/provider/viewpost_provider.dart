@@ -3,12 +3,9 @@ import 'package:fyp/core/services/base_service.dart';
 import '../../../core/app_export.dart';
 import '../../../core/global/global.dart';
 import '../../../widgets/custom_elevated_button.dart';
-import '../models/dashboard_model.dart';
-class DashboardProvider extends ChangeNotifier {
+import '../../dashboard_screen/models/dashboard_model.dart';
+class ViewPostProvider extends ChangeNotifier {
   PostDashboardModel? dashboardModelObj;
-  bool isShowLoading = true;
-  String? uc;
-  late List<PostDashboardModel> allPosts;
 
   String? selectedReportType;
   TextEditingController reasonController = TextEditingController();
@@ -20,7 +17,7 @@ class DashboardProvider extends ChangeNotifier {
     "Misleading",
     "Scam or Fraud"
   ];
-  List<String> items = ['Report', 'Delete'];
+  List<String> items = ['Report'];
   Widget buildAutoLayoutVertical(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -49,13 +46,13 @@ class DashboardProvider extends ChangeNotifier {
                       CustomElevatedButton(
                           onPressed: () async {
                             try{
-                              if(Provider.of<DashboardProvider>(context, listen: false).selectedReportType!=null){
+                              if(Provider.of<ViewPostProvider>(context, listen: false).selectedReportType!=null){
 
                                 BaseService.showLoading("Reporting...", context);
                                 Map<String,String> body = {
-                                  'reportReason':Provider.of<DashboardProvider>(context, listen: false).reasonController.text,
+                                  'reportReason':reasonController.text,
                                   'cnic':GlobalData.prefs.getString('cnic')!,
-                                  'reportType':Provider.of<DashboardProvider>(context, listen: false).selectedReportType!,
+                                  'reportType':selectedReportType!,
                                   'postId':GlobalData.postId,
                                 };
                                 await BaseService.postRequest('Main/ReportPost', body);
@@ -65,8 +62,8 @@ class DashboardProvider extends ChangeNotifier {
                                     content: Center(child: Text('Report Successful!')),
                                   ),
                                 );
-                                Provider.of<DashboardProvider>(context, listen: false).selectedReportType = null;
-                                Provider.of<DashboardProvider>(context, listen: false).reasonController.clear();
+                                selectedReportType = null;
+                                reasonController.clear();
                                 Navigator.of(context).pop();
 
                               }else{
@@ -117,16 +114,16 @@ class DashboardProvider extends ChangeNotifier {
                         ),
                         dropdownColor: Colors.white,
                         style: TextStyle(color: Colors.black, fontSize: 18),
-                        value: Provider.of<DashboardProvider>(context, listen: false).selectedReportType,
+                        value: selectedReportType,
                         hint: Text('Select a reason', style: TextStyle(color: Colors.grey)),
-                        items: Provider.of<DashboardProvider>(context, listen: false).reportTypes.map((String reason) {
+                        items: reportTypes.map((String reason) {
                           return DropdownMenuItem<String>(
                             value: reason,
                             child: Text(reason),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
-                          Provider.of<DashboardProvider>(context, listen: false).selectedReportType = newValue;
+                          selectedReportType = newValue;
                           notifyListeners();
                         },
                         icon: Icon(Icons.arrow_drop_down, color: Colors.black),
@@ -139,7 +136,7 @@ class DashboardProvider extends ChangeNotifier {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 46.0),
                       child: TextField(
-                        controller: Provider.of<DashboardProvider>(context, listen: false).reasonController,
+                        controller: reasonController,
                         decoration: InputDecoration(
                           hintText: "Explain your reason",
                           border: OutlineInputBorder(
@@ -161,36 +158,18 @@ class DashboardProvider extends ChangeNotifier {
       ),
     );
   }
-  Future<List<PostDashboardModel>> getAllPosts() async {
-    Map<String, String> requestBody = {
-      'cnic': GlobalData.prefs.getString('cnic')!,
-    };
-    if (uc != null) {
-      requestBody['uc'] = uc!;
-    }
-    dynamic response = await BaseService.postRequest("Main/AllPost", requestBody);
-    final parsed = response.cast<Map<String, dynamic>>();
-    return parsed.map<PostDashboardModel>((json) => PostDashboardModel.fromJson(json)).toList();
-  }
   void notifier(){
     notifyListeners();
   }
-  Future<double> ratePost(int index) async {
+  Future<List<PostDashboardModel>> ratePost(int postId, int score) async {
     Map<String, String> requestBody = {
-      'postId':allPosts[index].postId.toString(),
-      'score':allPosts[index].rate_score.toString(),
+      'postId':postId.toString(),
+      'score': score.toString(),
       'cnic':GlobalData.prefs.getString('cnic')!,
     };
-    Map<String, dynamic> response = await BaseService.postRequest("Main/RatePost", requestBody);
-    print(response['score']);
-    return response['score'];
-  }
-  Future<bool> deletePost(int id) async {
-    Map<String, String> requestBody = {
-      'pid':id.toString(),
-    };
-    await BaseService.postRequest("Main/DeletePost", requestBody);
-    return true;
+    dynamic response = await BaseService.postRequest("Main/RatePost", requestBody);
+    final parsed = response.cast<Map<String, dynamic>>();
+    return parsed.map<PostDashboardModel>((json) => PostDashboardModel.fromJson(json)).toList();
   }
   Future<bool> FollowById(String accountCnic) async {
     Map<String, String> requestBody = {
@@ -199,14 +178,5 @@ class DashboardProvider extends ChangeNotifier {
     };
     dynamic response = await BaseService.postRequest("Main/FollowById", requestBody);
     return true;
-  }
-  loadData() async {
-    allPosts = await getAllPosts();
-    isShowLoading = false;
-    notifyListeners();
-  }
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

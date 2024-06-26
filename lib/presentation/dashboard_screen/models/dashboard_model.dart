@@ -11,12 +11,14 @@ class PostDashboardModel {
   final String accountType;
   final String position;
   final String politician_id;
-  final int totalRating;
+  double totalRating;
   final String status;
+  final int totalComment;
   final String? recentComment; // It could be null in the response
   final DateTime? recentCommentDate; // It could be null in the response
   bool followed;
   int rate_score;
+  int popScore;
 
   PostDashboardModel({
     required this.id,
@@ -36,7 +38,9 @@ class PostDashboardModel {
     this.postImage,
     this.recentComment,
     this.recentCommentDate,
+    required this.totalComment,
     required this.followed,
+    required this.popScore,
   });
 
   factory PostDashboardModel.fromJson(Map<String, dynamic> json) {
@@ -60,6 +64,8 @@ class PostDashboardModel {
       rate_score: json['rate_score'] ?? 0,
       politician_id: json['politician_id'],
       followed: json['followed'],
+      totalComment: json['count_comment'],
+      popScore: json['popScore'],
     );
   }
 }

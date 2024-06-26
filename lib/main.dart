@@ -8,12 +8,19 @@ import 'package:fyp/presentation/followed_screen/provider/followed_provider.dart
 import 'package:fyp/presentation/following_screen/provider/following_provider.dart';
 import 'package:fyp/presentation/login_screen/provider/login_provider.dart';
 import 'package:fyp/presentation/profile_screen/provider/profile_provider.dart';
+import 'package:fyp/presentation/viewpost_screen/provider/viewpost_provider.dart';
 import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.lightGreen,
+      statusBarIconBrightness: Brightness.light,
+    ),
+  );
   Future.wait([
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -34,6 +41,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
             ChangeNotifierProvider(create: (_) => LoginProvider()),
             ChangeNotifierProvider(create: (_) => DashboardProvider()),
+            ChangeNotifierProvider(create: (_) => ViewPostProvider()),
             ChangeNotifierProvider(create: (_) => CommentProvider()),
             ChangeNotifierProvider(create: (_) => ProfileProvider()),
             ChangeNotifierProvider(create: (_) => FollowedProvider()),
@@ -43,14 +51,16 @@ class MyApp extends StatelessWidget {
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
-              return MaterialApp(
-                theme: theme, // Use theme from ThemeProvider
-                title: 'Politician Portal',
-                navigatorKey: NavigatorService.navigatorKey,
-                debugShowCheckedModeBanner: false,
-                initialRoute: AppRoutes.splashScreen,
-                routes: AppRoutes.routes,
-                // home: MyHomePage(),
+              return SafeArea(
+                child: MaterialApp(
+                  theme: theme, // Use theme from ThemeProvider
+                  title: 'Politician Portal',
+                  navigatorKey: NavigatorService.navigatorKey,
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: AppRoutes.splashScreen,
+                  routes: AppRoutes.routes,
+                  // home: MyHomePage(),
+                ),
               );
             },
           ),

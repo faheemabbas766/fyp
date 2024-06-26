@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:fyp/core/app_export.dart';
 import 'package:fyp/core/global/global.dart';
 import 'provider/admindashboardscreen_provider.dart';

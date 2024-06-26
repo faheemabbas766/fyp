@@ -120,7 +120,12 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                             DropdownButton2<String>(
                                                               isExpanded: true,
                                                               underline: SizedBox.shrink(),
-                                                              items: Provider.of<DashboardProvider>(context, listen: false).items
+                                                              items: Provider.of<DashboardProvider>(context, listen: false)
+                                                                  .items
+                                                                  .where((String item) {
+                                                                // Assuming `item` is 'Delete' if CNIC matches
+                                                                return GlobalData.prefs.getString('cnic') == provider.allPosts[index].userCNIC ? item == 'Delete' : item != 'Delete';
+                                                              })
                                                                   .map((String item) => DropdownMenuItem<String>(
                                                                 value: item,
                                                                 child: Text(
@@ -135,12 +140,20 @@ class DashboardScreenState extends State<DashboardScreen> {
                                                               ))
                                                                   .toList(),
                                                               value: null,
-                                                              onChanged: (String? value) {
-                                                                if(value == 'Report'){
+                                                              onChanged: (String? value) async {
+                                                                if (value == 'Report') {
                                                                   GlobalData.postId = provider.allPosts[index].postId.toString();
                                                                   showDialog(
                                                                       context: context,
-                                                                      builder: (context) => Provider.of<DashboardProvider>(context, listen: false).buildAutoLayoutVertical(context));
+                                                                      builder: (context) => Provider.of<DashboardProvider>(context, listen: false)
+                                                                          .buildAutoLayoutVertical(context));
+                                                                } else if (value == 'Delete') {
+                                                                  if(await provider.deletePost(provider.allPosts[index].postId)){
+                                                                    GlobalData.showSnackBar("Deleted", context);
+                                                                    await provider.loadData();
+                                                                  }else{
+                                                                    print("Failed");
+                                                                  }
                                                                 }
                                                               },
                                                               buttonStyleData: ButtonStyleData(
@@ -269,59 +282,80 @@ class DashboardScreenState extends State<DashboardScreen> {
                                           ),
                                         ),
                                       ):Container(),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround, // Distribute space evenly
-                                        children: [
-                                          Row(
-                                            children: [
-                                              for (int i = 0; i < 5; i++)
-                                                Padding(
-                                                  padding: const EdgeInsets.symmetric(horizontal: 1.0), // Customize the horizontal spacing here
-                                                  child: GestureDetector(
-                                                      onTap: (){
-                                                        provider.allPosts[index].rate_score= i+1;
-                                                        provider.notifier();
-                                                        provider.ratePost(index);
-                                                      },
-                                                      child: Icon(i<provider.allPosts[index].rate_score? Icons.star:Icons.star_border, color: Colors.yellow)),
-                                                ),
-                                              SizedBox(width: 10,),
-                                              Text(provider.allPosts[index].totalRating.toString(),style: CustomTextStyles.titleLargeBlack90005),
-                                            ],
-                                          ),
-                                          // Column(
-                                          //   children: [
-                                          //     IconButton(
-                                          //       onPressed: () {},
-                                          //       icon: Icon(Icons.thumb_up),
-                                          //     ),
-                                          //     Text("11.2k", style: CustomTextStyles.bodyMediumJudson),
-                                          //   ],
-                                          // ),
-                                          // Column(
-                                          //   children: [
-                                          //     IconButton(
-                                          //       onPressed: () {},
-                                          //       icon: Icon(Icons.thumb_down),
-                                          //     ),
-                                          //     Text("11.2k", style: CustomTextStyles.bodyMediumJudson),
-                                          //   ],
-                                          // ),
-                                          IconButton(
-                                            onPressed: () {
-                                              GlobalData.postId = provider.allPosts[index].postId.toString();
-                                              NavigatorService.pushNamed(
-                                                AppRoutes.commentScreen,
-                                              );
-                                            },
-                                            icon: Icon(Icons.comment_sharp),
-                                          ),
-                                          Expanded(
-                                              child: Text(provider.allPosts[index].recentComment??'',
-                                                style: CustomTextStyles.bodyMediumJudson,
-                                                overflow: TextOverflow.ellipsis,
-                                              )),
-                                        ],
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                for (int i = 0; i < 5; i++)
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 1.0), // Customize the horizontal spacing here
+                                                    child: GestureDetector(
+                                                        onTap: () async {
+                                                          provider.allPosts[index].rate_score= i+1;
+                                                          provider.allPosts[index].totalRating = await provider.ratePost(index);
+                                                          provider.notifier();
+                                                        },
+                                                        child: Icon(i<provider.allPosts[index].rate_score? Icons.star:Icons.star_border, color: Colors.yellow)),
+                                                  ),
+                                                SizedBox(width: 5,),
+                                                Text(provider.allPosts[index].totalRating.toString().substring(0,3),style: CustomTextStyles.titleLargeBlack90005),
+                                              ],
+                                            ),
+                                            // Column(
+                                            //   children: [
+                                            //     IconButton(
+                                            //       onPressed: () {},
+                                            //       icon: Icon(Icons.thumb_up),
+                                            //     ),
+                                            //     Text("11.2k", style: CustomTextStyles.bodyMediumJudson),
+                                            //   ],
+                                            // ),
+                                            // Column(
+                                            //   children: [
+                                            //     IconButton(
+                                            //       onPressed: () {},
+                                            //       icon: Icon(Icons.thumb_down),
+                                            //     ),
+                                            //     Text("11.2k", style: CustomTextStyles.bodyMediumJudson),
+                                            //   ],
+                                            // ),
+                                            SizedBox(width: 10,),
+                                            Text('Pop Score',
+                                              style: CustomTextStyles.bodyMediumJudson,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Icon(Icons.local_fire_department_sharp, color: Colors.red,),
+                                            Text(provider.allPosts[index].popScore.toString(),style: CustomTextStyles.titleLargeBlack90005),
+                                            SizedBox(width: 10,),
+                                            InkWell(
+                                                onTap: (){
+                                                  GlobalData.postId = provider.allPosts[index].postId.toString();
+                                                  NavigatorService.pushNamed(
+                                                    AppRoutes.commentScreen,
+                                                  );
+                                                },
+                                                child: Icon(Icons.message_rounded,color: Colors.cyan,)),
+                                            Text(provider.allPosts[index].totalComment.toString(),style: CustomTextStyles.titleLargeBlack90005),
+                                            SizedBox(width: 10,),
+                                            // Expanded(
+                                            //   child: InkWell(
+                                            //     onTap: (){
+                                            //       GlobalData.postId = provider.allPosts[index].postId.toString();
+                                            //       NavigatorService.pushNamed(
+                                            //         AppRoutes.commentScreen,
+                                            //       );
+                                            //     },
+                                            //     child: Text(provider.allPosts[index].recentComment??'',
+                                            //       style: CustomTextStyles.bodyMediumJudson,
+                                            //       overflow: TextOverflow.ellipsis,
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

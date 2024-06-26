@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:fyp/core/app_export.dart';
+import 'package:fyp/presentation/viewpost_screen/provider/viewpost_provider.dart';
 import 'package:fyp/presentation/visitprofile_screen/models/visitprofile_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/global/global.dart';
@@ -9,8 +10,8 @@ import '../../core/services/base_service.dart';
 import '../dashboard_screen/provider/dashboard_provider.dart';
 class ViewPostScreen extends StatefulWidget {
   ViewPostScreen({required this.postData, required this.index});
-  VisitProfileModel postData;
-  int index;
+  final VisitProfileModel postData;
+  final  index;
 
   @override
   State<ViewPostScreen> createState() => _ViewPostScreenState();
@@ -41,7 +42,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                   radius: 15.h + 15.v,
                                   backgroundColor: Colors.transparent, // Optional background color for clarity
                                   backgroundImage: NetworkImage(
-                                    BaseService.mediaUrl + "/profile/" + widget.postData.picture,
+                                    BaseService.mediaUrl + "/profile/" + widget.postData.userPosts[widget.index].userPicture,
                                   ),// Ensure sharp circle edge
                                 ),
                                 Padding(
@@ -55,7 +56,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                               Container(
                                                 width: MediaQuery.of(context).size.width/3,
                                                 child: Text(
-                                                  widget.postData.name,
+                                                  widget.postData.userPosts[widget.index].userName,
                                                   style: CustomTextStyles.titleSmallRoboto,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -126,22 +127,22 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                               Container(
                                                 width: MediaQuery.of(context).size.width/3,
                                                 child: Text(
-                                                  widget.postData.userType,
+                                                  widget.postData.userPosts[widget.index].accountType,
                                                   style: CustomTextStyles.titleSmallRoboto,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                               ),
-                                              GlobalData.prefs.getString('cnic')!=widget.postData.cnic?
+                                              GlobalData.prefs.getString('cnic')!=widget.postData.userPosts[widget.index].userCnic?
                                               InkWell(
                                                   onTap: () async {
-                                                    if (await Provider.of<DashboardProvider>(context, listen: false).FollowById(widget.postData.cnic)) {
-                                                      widget.postData.isFollow = !widget.postData.isFollow;
+                                                    if (await Provider.of<DashboardProvider>(context, listen: false).FollowById(widget.postData.userPosts[widget.index].userCnic)) {
+                                                      widget.postData.userPosts[widget.index].followed = !widget.postData.userPosts[widget.index].followed;
                                                       GlobalData.showSnackBar(
-                                                          widget.postData.isFollow ? "Following" : 'Unfollowed', context);
+                                                          widget.postData.userPosts[widget.index].followed ? "Following" : 'Unfollowed', context);
                                                       Provider.of<DashboardProvider>(context, listen: false).notifier();
                                                     }
                                                   },
-                                                  child: Text(widget.postData.isFollow ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,))
+                                                  child: Text(widget.postData.userPosts[widget.index].followed ? "Following" : 'Follow+',style: CustomTextStyles.titleSmallRobotoSemiBold,))
                                                   :SizedBox(
                                                 width: MediaQuery.of(context).size.height / 15.40,),
                                             ],
@@ -195,8 +196,7 @@ class _ViewPostScreenState extends State<ViewPostScreen> {
                                     child: GestureDetector(
                                         onTap: (){
                                           widget.postData.userPosts[widget.index].rateScore= i+1;
-                                          Provider.of<DashboardProvider>(context, listen: false).notifier();
-                                          Provider.of<DashboardProvider>(context, listen: false).ratePost(0);
+                                          Provider.of<ViewPostProvider>(context, listen: false).ratePost(widget.postData.userPosts[widget.index].postId,i+1 );
                                           setState(() {
 
                                           });
